@@ -3,399 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cyber Rewards</title>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>TCG Reward System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-overlay: rgba(0, 0, 0, 0.85);
-            --modal-bg: #121418;
-            --card-bg: #1e222b;
-            --accent-cyan: #00f2ff;
-            --accent-purple: #bd00ff;
-            --accent-gold: #ffc107;
-            --text-gray: #8b9bb4;
+            --bg-dark: #10121b;
+            --card-base: #1c1f2e;
+            --rarity-common: #4aa8ff;
+            --rarity-rare: #bd00ff;
+            --rarity-legendary: linear-gradient(135deg, #ffd700, #ff8c00, #ff0055);
+            --holo-sheen: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.2) 60%, transparent 80%);
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Teko', sans-serif;
-            background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop') no-repeat center center/cover;
+            background-color: var(--bg-dark);
+            /* Fond abstrait doux */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(74, 168, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(189, 0, 255, 0.1) 0%, transparent 40%);
+            font-family: 'Outfit', sans-serif;
             height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             overflow: hidden;
+            perspective: 1000px; /* Pour la 3D */
         }
 
-        /* --- LE WRAPPER MODAL --- */
-        .modal-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-overlay);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .modal-container {
+        /* --- CONTENEUR PRINCIPAL --- */
+        .ui-container {
             width: 100%;
-            max-width: 380px;
-            background: var(--modal-bg);
-            /* Bordure double fine */
-            box-shadow: 0 0 0 1px #333, 0 20px 50px rgba(0,0,0,0.8);
-            position: relative;
-            /* Coins coupés façon Sci-Fi */
-            clip-path: polygon(
-                20px 0, 100% 0, 
-                100% calc(100% - 20px), calc(100% - 20px) 100%, 
-                0 100%, 0 20px
-            );
-            padding: 2px; /* Pour créer une bordure via le background du parent si besoin, ici géré autrement */
-        }
-        
-        /* Décoration de bordure tech */
-        .modal-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-            z-index: 10;
-        }
-
-        .modal-content {
-            background: var(--modal-bg);
-            padding: 25px 20px;
-            /* Recréer le clip-path interne pour suivre le contour */
-            clip-path: polygon(
-                20px 0, 100% 0, 
-                100% calc(100% - 20px), calc(100% - 20px) 100%, 
-                0 100%, 0 20px
-            );
-            height: 100%;
+            max-width: 390px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
 
         /* --- HEADER --- */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 25px;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        
-        .title-block h2 {
-            margin: 0;
-            font-size: 36px;
-            line-height: 0.9;
+        .season-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 10px;
             text-transform: uppercase;
-            color: white;
-            letter-spacing: 1px;
-        }
-        .title-block span {
-            color: var(--accent-cyan);
-            font-size: 16px;
             letter-spacing: 2px;
-            text-transform: uppercase;
+            color: #ccc;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .main-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+            margin: 0;
+            line-height: 1.1;
+        }
+        .main-title span {
+            display: block;
+            font-size: 16px;
+            font-weight: 300;
+            color: #8890b5;
+            margin-top: 5px;
         }
 
-        .close-btn {
-            color: var(--text-gray);
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .close-btn:hover { color: white; transform: rotate(90deg); }
-
-        /* --- GRID --- */
-        .grid-rewards {
+        /* --- GRID DE CARTES --- */
+        .card-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 15px; /* Espace plus grand pour respirer */
+            flex: 1;
         }
 
-        /* --- NOUVEAU DESIGN DES ENCARTS (CARDS) --- */
-        .cyber-card {
-            background: linear-gradient(160deg, #2a2f3d 0%, #1a1d24 100%);
-            height: 120px; /* Plus vertical */
+        /* --- DESIGN DE LA CARTE (Le cœur du rework) --- */
+        .tcg-card {
+            background: var(--card-base);
+            border-radius: 12px;
             position: relative;
+            height: 140px; /* Très vertical */
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Ombre portée douce */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* Effet Hover: La carte se soulève */
+        .tcg-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Barre de Rareté (Haut) */
+        .rarity-bar {
+            height: 4px;
+            width: 100%;
+            background: var(--rarity-common);
+            box-shadow: 0 0 10px var(--rarity-common);
+        }
+
+        /* Corps de la carte */
+        .card-body {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            /* Forme biseautée uniquement en bas à droite */
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
-            border-left: 1px solid rgba(255,255,255,0.1);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.2s;
-        }
-
-        /* Effet de scanline interne */
-        .cyber-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.2) 3px
-            );
-            pointer-events: none;
-        }
-
-        .day-label {
-            position: absolute;
-            top: 6px;
-            left: 8px;
-            font-size: 14px;
-            color: var(--text-gray);
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .reward-visual {
-            font-size: 24px;
-            margin-top: 10px;
+            padding: 10px;
+            position: relative;
             z-index: 2;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        .day-number {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .reward-img {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
         }
 
         .reward-value {
-            font-size: 22px;
-            color: white;
+            font-size: 16px;
             font-weight: 700;
-            margin-top: 5px;
-            z-index: 2;
+            color: white;
+        }
+
+        /* Fond de carte avec motif subtil */
+        .card-bg-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at center, rgba(255,255,255,0.03) 2px, transparent 2.5px);
+            background-size: 10px 10px;
+            z-index: 1;
         }
 
         /* --- ÉTATS --- */
 
-        /* 1. CLAIMED */
-        .cyber-card.claimed {
-            background: #15171c;
-            border: 1px solid #333;
+        /* 1. CLAIMED (Carte grisée + Tampon) */
+        .tcg-card.claimed {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+            transform: scale(0.95);
         }
-        .cyber-card.claimed .reward-visual,
-        .cyber-card.claimed .reward-value {
-            opacity: 0.3;
-        }
-        .stamp {
+        .tcg-card.claimed::after {
+            content: '\f00c'; /* FontAwesome Check */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-15deg);
-            border: 2px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            padding: 2px 8px;
-            font-size: 18px;
-            font-weight: 700;
-            text-transform: uppercase;
-            z-index: 5;
-            box-shadow: 0 0 10px var(--accent-cyan);
-            background: rgba(0, 242, 255, 0.1);
-        }
-
-        /* 2. ACTIVE */
-        .cyber-card.active {
-            background: linear-gradient(160deg, #2a2f3d 0%, #1a1d24 100%);
-            box-shadow: 0 0 20px rgba(189, 0, 255, 0.2); /* Glow violet */
-            border: 1px solid var(--accent-purple);
-            transform: scale(1.05);
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #fff;
+            opacity: 0.8;
             z-index: 10;
         }
-        
-        /* Petit triangle brillant dans le coin */
-        .cyber-card.active::before {
+
+        /* 2. ACTIVE (Holographique) */
+        .tcg-card.active {
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        /* L'effet de brillance qui passe sur la carte */
+        .tcg-card.active::before {
             content: '';
             position: absolute;
-            bottom: 0; right: 0;
-            width: 20px; height: 20px;
-            background: var(--accent-purple);
-            clip-path: polygon(100% 0, 0 100%, 100% 100%);
-            z-index: 3;
+            top: 0; left: 0; width: 200%; height: 100%;
+            background: var(--holo-sheen);
+            transform: skewX(-20deg) translateX(-150%);
+            animation: holoSweep 3s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .tcg-card.active .rarity-bar {
+            background: #fff;
+            box-shadow: 0 0 15px #fff;
         }
 
-        .timer-strip {
+        /* Timer Badge flottant */
+        .status-badge {
             position: absolute;
-            bottom: 0; left: 0;
-            width: 85%; /* S'arrête avant le coin coupé */
-            background: var(--accent-purple);
-            color: white;
-            font-size: 14px;
-            text-align: center;
-            font-weight: 600;
-            padding: 2px 0;
+            bottom: 10px;
+            background: #fff;
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            z-index: 6;
         }
 
-        /* 3. LOCKED */
-        .cyber-card.locked {
-            opacity: 0.6;
+        /* 3. RARE (Day 3-6) */
+        .tcg-card.rare .rarity-bar {
+            background: var(--rarity-rare);
+            box-shadow: 0 0 10px var(--rarity-rare);
         }
-        .cyber-card.locked i { color: #444; }
 
-        /* --- DAY 7: THE BOSS CARD --- */
-        .day7-wrapper {
+        /* --- LE BOOSTER PACK (Day 7) --- */
+        .booster-pack-container {
+            grid-column: span 3; /* Prend toute la largeur */
             margin-top: 10px;
-            position: relative;
+            height: 120px;
         }
 
-        .cyber-card.gold {
+        .booster-pack {
             width: 100%;
-            height: 100px;
-            flex-direction: row;
+            height: 100%;
+            background: rgb(20,20,30);
+            border-radius: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
             justify-content: space-between;
-            padding: 0 30px;
-            box-sizing: border-box;
-            background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
-            border: 1px solid var(--accent-gold);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            box-shadow: inset 0 0 30px rgba(255, 193, 7, 0.1);
-        }
-
-        .gold-info {
-            text-align: left;
-        }
-        .gold-label {
-            color: var(--accent-gold);
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .gold-title {
-            color: white;
-            font-size: 28px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .gold-icon {
-            font-size: 40px;
-            color: var(--accent-gold);
-            animation: pulseGold 2s infinite;
-            filter: drop-shadow(0 0 15px var(--accent-gold));
-        }
-
-        @keyframes pulseGold { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-        /* --- BUTTON --- */
-        .action-btn {
-            width: 100%;
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--accent-purple);
-            border: none;
-            color: white;
-            font-family: 'Teko', sans-serif;
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-            transition: 0.3s;
-            position: relative;
+            padding: 0 25px;
+            /* Texture foil alu froissé simulée */
+            background: repeating-linear-gradient(
+                45deg,
+                #222,
+                #222 10px,
+                #2a2a2a 10px,
+                #2a2a2a 20px
+            );
+            border: 2px solid rgba(255,255,255,0.1);
             overflow: hidden;
-        }
-        
-        .action-btn:hover {
-            background: #a000db;
-            letter-spacing: 3px;
+            transition: 0.3s;
         }
 
-        /* Effet brillant sur le bouton */
-        .action-btn::before {
+        /* Effet Arc-en-ciel sur le booster */
+        .booster-pack::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg);
-            animation: sheenBtn 3s infinite;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,0,0,0.2), rgba(255,255,0,0.2), rgba(0,255,0,0.2), rgba(0,0,255,0.2));
+            mix-blend-mode: overlay;
         }
-        @keyframes sheenBtn { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        .booster-info h3 {
+            margin: 0;
+            font-size: 24px;
+            background: var(--rarity-legendary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        .booster-info p {
+            color: #888;
+            font-size: 12px;
+            margin: 5px 0 0 0;
+        }
+
+        .booster-art {
+            font-size: 40px;
+            color: white;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
+            animation: shake 3s infinite ease-in-out; /* Le paquet bouge un peu */
+            z-index: 2;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes holoSweep { 0% { transform: skewX(-20deg) translateX(-150%); } 50%, 100% { transform: skewX(-20deg) translateX(150%); } }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+
+        /* --- FOOTER --- */
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 20px;
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-content">
-                
-                <div class="header">
-                    <div class="title-block">
-                        <span>Daily Login</span>
-                        <h2>Sector 7</h2>
-                    </div>
-                    <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-                </div>
-
-                <div class="grid-rewards">
-                    
-                    <div class="cyber-card claimed">
-                        <div class="day-label">01</div>
-                        <i class="fa-solid fa-bolt reward-visual" style="color:#555;"></i>
-                        <div class="reward-value">200</div>
-                        <div class="stamp">TAKEN</div>
-                    </div>
-
-                    <div class="cyber-card active">
-                        <div class="day-label" style="color:var(--accent-purple);">02</div>
-                        <i class="fa-solid fa-microchip reward-visual" style="color:var(--accent-purple);"></i>
-                        <div class="reward-value">50</div>
-                        <div class="timer-strip">14:22:05</div>
-                    </div>
-
-                    <div class="cyber-card locked">
-                        <div class="day-label">03</div>
-                        <i class="fa-solid fa-cube reward-visual"></i>
-                        <div class="reward-value">X2</div>
-                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
-                    </div>
-
-                    <div class="cyber-card locked">
-                        <div class="day-label">04</div>
-                        <i class="fa-solid fa-coins reward-visual"></i>
-                        <div class="reward-value">100</div>
-                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
-                    </div>
-
-                    <div class="cyber-card locked">
-                        <div class="day-label">05</div>
-                        <i class="fa-solid fa-shield-halved reward-visual"></i>
-                        <div class="reward-value">Skin</div>
-                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
-                    </div>
-
-                    <div class="cyber-card locked">
-                        <div class="day-label">06</div>
-                        <i class="fa-solid fa-dna reward-visual"></i>
-                        <div class="reward-value">Rare</div>
-                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
-                    </div>
-
-                </div>
-
-                <div class="day7-wrapper">
-                    <div class="cyber-card gold">
-                        <div class="gold-info">
-                            <div class="gold-label">Final Target</div>
-                            <div class="gold-title">Omega Chest</div>
-                        </div>
-                        <i class="fa-solid fa-box-open gold-icon"></i>
-                    </div>
-                </div>
-
-                <button class="action-btn">Initialize Day 2</button>
-
-            </div>
+    <div class="ui-container">
+        <div class="header">
+            <div class="season-badge">Season 4</div>
+            <h1 class="main-title">
+                Daily Drops
+                <span>Collect rewards to build your deck</span>
+            </h1>
         </div>
+
+        <div class="card-grid">
+
+            <div class="tcg-card claimed">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number">Day 01</div>
+                    <i class="fa-solid fa-scroll reward-img"></i>
+                    <div class="reward-value">XP Scroll</div>
+                </div>
+            </div>
+
+            <div class="tcg-card active">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number" style="color:white;">Day 02</div>
+                    <i class="fa-solid fa-diamond reward-img" style="color: #4aa8ff;"></i>
+                    <div class="reward-value">50 Gems</div>
+                    <div class="status-badge">CLAIM NOW</div>
+                </div>
+            </div>
+
+            <div class="tcg-card rare">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number">Day 03</div>
+                    <i class="fa-solid fa-flask reward-img" style="color: #bd00ff;"></i>
+                    <div class="reward-value">Elixir</div>
+                    <i class="fa-solid fa-lock" style="font-size:12px; opacity:0.3; margin-top:5px;"></i>
+                </div>
+            </div>
+
+            <div class="tcg-card rare">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number">Day 04</div>
+                    <i class="fa-solid fa-khanda reward-img" style="color: #bd00ff;"></i>
+                    <div class="reward-value">Sword</div>
+                    <i class="fa-solid fa-lock" style="font-size:12px; opacity:0.3; margin-top:5px;"></i>
+                </div>
+            </div>
+
+            <div class="tcg-card rare">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number">Day 05</div>
+                    <i class="fa-solid fa-shield-cat reward-img" style="color: #bd00ff;"></i>
+                    <div class="reward-value">Shield</div>
+                    <i class="fa-solid fa-lock" style="font-size:12px; opacity:0.3; margin-top:5px;"></i>
+                </div>
+            </div>
+
+            <div class="tcg-card rare">
+                <div class="rarity-bar"></div>
+                <div class="card-bg-pattern"></div>
+                <div class="card-body">
+                    <div class="day-number">Day 06</div>
+                    <i class="fa-solid fa-hat-wizard reward-img" style="color: #bd00ff;"></i>
+                    <div class="reward-value">Skin</div>
+                    <i class="fa-solid fa-lock" style="font-size:12px; opacity:0.3; margin-top:5px;"></i>
+                </div>
+            </div>
+
+            <div class="booster-pack-container">
+                <div class="booster-pack">
+                    <div class="booster-info">
+                        <h3>Legendary Pack</h3>
+                        <p>Contains 1 guaranteed hero</p>
+                    </div>
+                    <i class="fa-solid fa-layer-group booster-art"></i>
+                    
+                    <i class="fa-solid fa-lock" style="position:absolute; top:15px; right:15px; color:#555;"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-text">Resets in 6 days 14 hours</div>
     </div>
 
 </body>
