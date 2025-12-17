@@ -3,370 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temple Timeline Reward</title>
-    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+    <title>Daily Rewards Cartoon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --gold-main: #ffcc00;
-            --orange-bg: #d35400;
-            --brown-dark: #4a2c0f;
-            --card-gradient-top: #fff5e6;
-            --card-gradient-bot: #ffca96;
-            --bar-blue: #4a69bd;
-            --bar-bg: #2c3e50;
-            --btn-blue: #0099ff;
-            --btn-blue-shadow: #005c99;
+            --bg-app: #f0f4f8;
+            --pink-container: #ffc2f5;
+            --purple-card: #8c7ae6;
+            --purple-dark: #644ec4;
+            --lime-green: #b8ff45; /* Le vert "Active" et Bouton */
+            --yellow-card: #fff200;
+            --yellow-dark: #e1d200;
+            --text-dark: #2d3436;
         }
 
-        * { box-sizing: border-box; user-select: none; }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             padding: 0;
-            background-color: #111;
-            font-family: 'Titan One', cursive;
+            background-color: #dfe6e9;
+            font-family: 'Nunito', sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
-        /* --- CADRE PRINCIPAL (LE MOBILE) --- */
-        .mobile-frame {
+        /* --- MOBILE CONTAINER --- */
+        .mobile-screen {
             width: 100%;
-            max-width: 414px; /* Largeur iPhone Max */
+            max-width: 400px;
             height: 95vh;
-            max-height: 850px;
-            background: linear-gradient(180deg, #ff9f43 0%, #e67e22 100%);
-            border: 8px solid #d35400;
-            border-radius: 20px;
+            max-height: 880px;
+            background-color: #edf2f7; /* Fond gris bleuté clair */
+            border-radius: 40px;
+            border: 8px solid #2d3436;
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        /* Colonnes décoratives latérales */
-        .mobile-frame::before, .mobile-frame::after {
-            content: '';
-            position: absolute;
-            top: 0; bottom: 0; width: 18px;
-            background: linear-gradient(90deg, #e67e22, #f39c12, #d35400);
-            border-right: 1px solid rgba(0,0,0,0.3);
-            border-left: 1px solid rgba(255,255,255,0.2);
-            z-index: 20;
-        }
-        .mobile-frame::before { left: 0; }
-        .mobile-frame::after { right: 0; }
-
-        /* --- HEADER (HEROS) --- */
+        /* --- HEADER --- */
         .header {
-            height: 300px; /* Grand header comme sur l'image */
-            background: radial-gradient(circle at center, #f1c40f 0%, #d35400 80%);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 20px;
-            z-index: 10;
-            /* Forme arrondie en bas du header */
-            border-bottom-left-radius: 50% 20px;
-            border-bottom-right-radius: 50% 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            margin-bottom: -20px; /* Chevauchement */
-        }
-
-        .header-art {
-            font-size: 140px;
-            color: rgba(255,255,255,0.9);
-            filter: drop-shadow(0 0 20px #e67e22);
-            position: absolute;
-            top: 40px;
-        }
-        
-        .sun-rays {
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.1) 0deg 15deg, transparent 15deg 30deg);
-            animation: spin 20s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .title-text {
-            position: relative;
-            color: white;
-            font-size: 22px;
-            text-transform: uppercase;
             text-align: center;
-            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
-            margin-bottom: 10px;
+            padding-top: 40px;
+            padding-bottom: 20px;
+            position: relative;
             z-index: 2;
-            width: 80%;
-            line-height: 1.2;
         }
 
-        /* --- LISTE TIMELINE (SCROLL) --- */
-        .timeline-container {
-            flex: 1;
-            background-color: #5d4037; /* Fond marron foncé comme l'image */
-            overflow-y: auto;
-            padding: 40px 30px 20px 30px; /* Padding top pour compenser le header */
+        .main-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 38px;
+            text-transform: uppercase;
+            color: #00e600; /* Vert flashy */
+            /* Contour noir épais + Ombre portée */
+            -webkit-text-stroke: 1.5px black;
+            text-shadow: 
+                3px 3px 0 #000,
+                0 0 20px rgba(0, 230, 0, 0.4);
+            margin: 0;
+            letter-spacing: 1px;
+            transform: skew(-2deg);
+        }
+
+        /* Illustration Trophées (Simulée) */
+        .trophy-stage {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .trophy-col {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0; /* Géré par les connecteurs */
-            
-            /* Masquer scrollbar */
-            scrollbar-width: none;
         }
-        .timeline-container::-webkit-scrollbar { display: none; }
-
-        /* --- CARTE ROW --- */
-        .reward-row {
-            width: 100%;
-            height: 90px;
-            background: linear-gradient(180deg, var(--card-gradient-top) 0%, var(--card-gradient-bot) 100%);
-            border-radius: 12px;
-            border-bottom: 5px solid #dba76c;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            position: relative;
-            z-index: 5;
+        .trophy-icon {
+            font-size: 30px;
+            filter: drop-shadow(0 4px 0 rgba(0,0,0,0.1));
+            margin-bottom: -5px;
+            z-index: 2;
+        }
+        .podium-block {
+            width: 40px;
+            background: #a29bfe;
+            border: 2px solid #6c5ce7;
+            border-radius: 4px 4px 0 0;
         }
 
-        /* Barre Bleue (Gauche) */
-        .status-bar {
-            background-color: #574b90; /* Fond violet sombre */
-            width: 160px;
-            height: 40px;
+        /* --- GRID CONTAINER (LE ROSE) --- */
+        .grid-wrapper {
+            background-color: var(--pink-container);
+            margin: 0 15px;
             border-radius: 20px;
+            padding: 15px;
+            flex: 1; /* Prend l'espace restant */
             display: flex;
-            align-items: center;
-            padding: 0 5px;
-            position: relative;
-            box-shadow: inset 0 3px 5px rgba(0,0,0,0.5);
-            border: 2px solid #3e3366;
+            flex-direction: column;
+            justify-content: space-between; /* Espacer la grille */
+            box-shadow: 0 8px 0 #fab1a0; /* Petite épaisseur rose foncé */
         }
 
-        .status-icon {
-            width: 34px; height: 34px;
-            /* Icone couronne/horloge */
-            background: linear-gradient(#00a8ff, #0097e6);
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        /* --- CARTE BASE --- */
+        .card {
+            border-radius: 12px;
+            height: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            /* Ombre douce */
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        /* HEADER PILL (Day X) */
+        .day-pill {
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 12px 12px 0 0; /* Arrondi haut seulement */
+            color: rgba(0,0,0,0.5);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding-bottom: 5px;
+        }
+
+        .reward-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 2px 0 rgba(0,0,0,0.1));
+        }
+
+        .reward-amount {
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        /* --- VARIANTES --- */
+
+        /* 1. CLAIMED (Violet) */
+        .card.claimed {
+            background-color: var(--purple-card);
+            color: rgba(255,255,255,0.6);
+        }
+        .card.claimed .day-pill {
+            background-color: rgba(0,0,0,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+        .card.claimed .reward-icon {
+            opacity: 0.5;
+        }
+        /* Checkmark Vert géant */
+        .check-overlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #00b894; /* Vert check */
+            background: white;
+            width: 30px; height: 30px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            /* On masque le cercle blanc pour ne garder que l'icone si on veut, 
+               mais ici je fais un style "Sticker" */
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+        .check-overlay i { font-size: 24px; }
+
+
+        /* 2. ACTIVE (Vert Lime + Bordure) */
+        .card.active {
+            background-color: var(--lime-green);
+            border: 3px solid var(--purple-dark); /* Bordure violette typique */
+            color: var(--text-dark);
+            transform: scale(1.02); /* Légèrement plus gros */
+            z-index: 10;
+        }
+        .card.active .day-pill {
+            background-color: var(--purple-card); /* Pill violette */
             color: white;
-            font-size: 16px;
-            border: 2px solid #fff;
-            position: absolute;
-            left: -5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin: -1px -1px 0 -1px; /* Pour coller aux bords */
+            width: calc(100% + 2px);
+            border-radius: 9px 9px 0 0;
+        }
+        .card.active .reward-amount {
+            font-size: 15px; /* Plus gros */
+            color: black;
+            text-shadow: 0 1px 0 white;
         }
 
-        .status-text {
-            color: white;
-            font-size: 13px;
-            margin-left: 35px; /* Place pour l'icone */
-            width: 100%;
-            text-align: center;
-            text-shadow: 1px 1px 0 #000;
-        }
 
-        /* Récompense (Droite) */
-        .reward-col {
-            position: relative;
-            width: 80px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* 3. LOCKED (Jaune) */
+        .card.locked {
+            background-color: var(--yellow-card);
+            color: var(--text-dark);
         }
-
-        .reward-img {
-            font-size: 45px;
-            color: #f1c40f;
-            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
-            z-index: 2;
+        .card.locked .day-pill {
+            background-color: rgba(0,0,0,0.05);
+            color: #b7a900;
+            font-size: 10px;
         }
-
-        .amount-badge {
-            position: absolute;
-            bottom: -5px;
-            right: 0;
-            color: white;
-            font-size: 20px;
-            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
-            z-index: 3;
-        }
-
-        .lock-icon {
-            position: absolute;
-            top: 0; right: -5px;
+        .card.locked .reward-amount {
             color: #333;
-            font-size: 16px;
-            z-index: 4;
         }
 
-        /* --- CONNECTEUR (Flèche jaune) --- */
-        .connector {
-            width: 0; 
-            height: 0; 
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 15px solid #f1c40f; /* Triangle jaune */
-            margin: 5px 0;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
-            z-index: 4;
+        /* 4. DAY 7 (Large + Sunburst) */
+        .card.wide {
+            grid-column: span 3;
+            height: 100px;
+            /* Sunburst effect simulé */
+            background: repeating-conic-gradient(
+                from 0deg,
+                #ffd700 0deg 15deg,
+                #ffca28 15deg 30deg
+            );
+            border: 2px solid #ffca28;
+            flex-direction: column;
+        }
+        .card.wide .day-pill {
+            background-color: rgba(0,0,0,0.1); /* Foncé */
+            color: #795548;
+        }
+        .card.wide .card-content {
+            flex-direction: row; /* Horizontal */
+            gap: 15px;
+        }
+        
+        .plus-sign {
+            font-family: 'Fredoka One', cursive;
+            font-size: 30px;
+            color: white;
+            text-shadow: 2px 2px 0 #d35400; /* Ombre orange */
+            -webkit-text-stroke: 1px #d35400;
         }
 
-        /* --- FOOTER --- */
-        .footer {
-            height: 90px;
-            background: linear-gradient(180deg, #d35400 0%, #a04000 100%);
-            /* Décoration Zigzag en haut (comme image) */
-            clip-path: polygon(0 0, 10% 15%, 20% 0, 30% 15%, 40% 0, 50% 15%, 60% 0, 70% 15%, 80% 0, 90% 15%, 100% 0, 100% 100%, 0 100%);
-            margin-top: -10px; /* Pour coller au bas */
-            z-index: 20;
+        .wide-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        /* --- FOOTER SECTION --- */
+        .footer-section {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .claim-btn {
+            width: 100%;
+            background-color: var(--lime-green);
+            border: 2px solid black;
+            border-radius: 50px; /* Pill shape */
+            padding: 18px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 5px 0 black; /* Ombre dure cartoon */
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding-top: 15px;
+            gap: 10px;
+            transition: transform 0.1s;
+        }
+        .claim-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 black;
         }
 
-        .btn-close {
-            background: linear-gradient(180deg, #3498db 0%, #2980b9 100%);
-            border: 2px solid #85c1e9;
-            border-radius: 12px;
-            padding: 10px 40px;
-            color: white;
-            font-family: 'Titan One', cursive;
-            font-size: 20px;
-            text-transform: uppercase;
-            box-shadow: 0 5px 0 #154360, 0 10px 10px rgba(0,0,0,0.3);
-            text-shadow: 1px 1px 0 #000;
-            cursor: pointer;
+        .timer-text {
+            font-size: 12px;
+            color: #636e72;
+            font-weight: 700;
         }
-        .btn-close:active { transform: translateY(5px); box-shadow: 0 0 0 #154360; }
-
-        /* --- VARIATIONS --- */
-        
-        /* Jour 7 (Grand Prix) */
-        .reward-row.grand-prize {
-            height: 120px;
-            background: linear-gradient(180deg, #fff9c4 0%, #fbc02d 100%); /* Plus doré */
-            border: 3px solid #fff;
-        }
-        .grand-prize .reward-img { font-size: 60px; color: #ffcc00; }
 
     </style>
 </head>
 <body>
 
-    <div class="mobile-frame">
+    <div class="mobile-screen">
         
         <div class="header">
-            <div class="sun-rays"></div>
-            <div style="position:absolute; top:50px; display:flex; gap:20px; z-index:1;">
-                <i class="fa-solid fa-chess-knight" style="font-size:80px; color:#f39c12; filter:drop-shadow(0 0 10px #000);"></i>
-                <i class="fa-solid fa-dragon" style="font-size:100px; color:#e67e22; filter:drop-shadow(0 0 10px #000); margin-top:-20px;"></i>
-            </div>
+            <h1 class="main-title">Daily Rewards</h1>
             
-            <div class="title-text">Débloquez vos récompenses<br>de bienvenue</div>
+            <div class="trophy-stage">
+                <div class="trophy-col">
+                    <i class="fa-solid fa-trophy trophy-icon" style="color:#bdc3c7; font-size:24px;"></i>
+                    <div class="podium-block" style="height:20px; background:#a29bfe;"></div>
+                </div>
+                <div class="trophy-col">
+                    <i class="fa-solid fa-trophy trophy-icon" style="color:#f1c40f; font-size:36px;"></i>
+                    <div class="podium-block" style="height:35px; background:#6c5ce7; border-color:#4834d4;"></div>
+                </div>
+                <div class="trophy-col">
+                    <i class="fa-solid fa-trophy trophy-icon" style="color:#e67e22; font-size:24px;"></i>
+                    <div class="podium-block" style="height:15px; background:#a29bfe;"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="timeline-container">
+        <div class="grid-wrapper">
+            <div class="rewards-grid">
+                
+                <div class="card claimed">
+                    <div class="day-pill">Day 1</div>
+                    <div class="card-content">
+                        <i class="fa-solid fa-coins reward-icon" style="color:#a29bfe;"></i>
+                        <span class="reward-amount">100 ME</span>
+                        <div class="check-overlay"><i class="fa-solid fa-check" style="color:#00b894; font-size:18px;"></i></div>
+                    </div>
+                </div>
 
-            <div class="reward-row">
-                <div class="status-bar">
-                    <div class="status-icon"><i class="fa-solid fa-crown"></i></div>
-                    <div class="status-text">0 / 1 REÇU</div>
+                <div class="card claimed">
+                    <div class="day-pill">Day 2</div>
+                    <div class="card-content">
+                        <i class="fa-solid fa-ticket reward-icon" style="color:#a29bfe;"></i>
+                        <span class="reward-amount">320 RP</span>
+                        <div class="check-overlay"><i class="fa-solid fa-check" style="color:#00b894; font-size:18px;"></i></div>
+                    </div>
                 </div>
-                <div class="reward-col">
-                    <i class="fa-solid fa-sack-dollar reward-img"></i>
-                    <div class="amount-badge">x5</div>
+
+                <div class="card active">
+                    <div class="day-pill">Day 3</div>
+                    <div class="card-content">
+                        <i class="fa-brands fa-bitcoin reward-icon" style="color:white; font-size:32px; filter:drop-shadow(0 2px 0 rgba(0,0,0,0.2));"></i>
+                        <span class="reward-amount">250 ME</span>
+                    </div>
                 </div>
+
+                <div class="card locked">
+                    <div class="day-pill"><i class="fa-solid fa-lock"></i> Day 4</div>
+                    <div class="card-content">
+                        <i class="fa-solid fa-gift reward-icon" style="color:#e17055;"></i>
+                        <span class="reward-amount">Gift Card</span>
+                    </div>
+                </div>
+
+                <div class="card locked">
+                    <div class="day-pill"><i class="fa-solid fa-lock"></i> Day 5</div>
+                    <div class="card-content">
+                        <i class="fa-solid fa-box-open reward-icon" style="color:#e67e22;"></i>
+                        <span class="reward-amount">Surprise</span>
+                    </div>
+                </div>
+
+                <div class="card locked">
+                    <div class="day-pill"><i class="fa-solid fa-lock"></i> Day 6</div>
+                    <div class="card-content">
+                        <i class="fa-brands fa-bitcoin reward-icon" style="color:#f1c40f;"></i>
+                        <span class="reward-amount">500 ME</span>
+                    </div>
+                </div>
+
+                <div class="card wide">
+                    <div class="day-pill"><i class="fa-solid fa-lock"></i> Day 7</div>
+                    <div class="card-content">
+                        <div class="wide-item">
+                            <i class="fa-brands fa-bitcoin reward-icon" style="color:#fff; font-size:28px;"></i>
+                            <span class="reward-amount" style="color:#5d4037;">500 ME</span>
+                        </div>
+                        
+                        <div class="plus-sign">+</div>
+
+                        <div class="wide-item">
+                            <i class="fa-solid fa-ticket reward-icon" style="color:#00b894; font-size:28px;"></i>
+                            <span class="reward-amount" style="color:#5d4037;">1200 RP</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row">
-                <div class="status-bar">
-                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
-                    <div class="status-text" style="font-size:11px;">DISPONIBLE : <br>23H 59MIN</div>
-                </div>
-                <div class="reward-col">
-                    <i class="fa-solid fa-gem reward-img" style="color:#2ecc71;"></i>
-                    <div class="amount-badge">x15</div>
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row">
-                <div class="status-bar">
-                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
-                    <div class="status-text">DISPONIBLE : <br>1J 23H</div>
-                </div>
-                <div class="reward-col">
-                    <i class="fa-solid fa-scroll reward-img" style="color:#3498db;"></i>
-                    <div class="amount-badge">x1</div>
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row">
-                <div class="status-bar">
-                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
-                    <div class="status-text">DISPONIBLE : <br>2J 23H</div>
-                </div>
-                <div class="reward-col">
-                    <i class="fa-solid fa-coins reward-img"></i>
-                    <div class="amount-badge">x50</div>
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row">
-                <div class="status-bar">
-                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
-                    <div class="status-text">DISPONIBLE : <br>3J 23H</div>
-                </div>
-                <div class="reward-col">
-                    <i class="fa-solid fa-bolt reward-img" style="color:#9b59b6;"></i>
-                    <div class="amount-badge">x20</div>
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row grand-prize">
-                <div class="status-bar" style="width:180px;">
-                    <div class="status-icon" style="background:#e74c3c;"><i class="fa-solid fa-lock"></i></div>
-                    <div class="status-text" style="font-size:14px;">COFFRE FINAL</div>
-                </div>
-                <div class="reward-col" style="width:100px;">
-                    <i class="fa-solid fa-chest reward-img"></i>
-                    <div class="amount-badge" style="font-size:24px;">x100</div>
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
         </div>
 
-        <div class="footer">
-            <button class="btn-close">Fermer</button>
+        <div class="footer-section">
+            <button class="claim-btn">
+                Claim Your Reward <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="timer-text">Your next reward unlocks in 22 hours and 15 minutes!</div>
         </div>
 
     </div>
