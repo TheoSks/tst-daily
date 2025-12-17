@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temple Reward UI</title>
+    <title>Temple Timeline Reward</title>
     <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --stone-blue: #2c3e50;
-            --btn-green: #76c61a;
-            --gold-border: #ffcc00;
+            --gold-main: #ffcc00;
+            --orange-bg: #d35400;
+            --brown-dark: #4a2c0f;
+            --card-gradient-top: #fff5e6;
+            --card-gradient-bot: #ffca96;
+            --bar-blue: #4a69bd;
+            --bar-bg: #2c3e50;
+            --btn-blue: #0099ff;
+            --btn-blue-shadow: #005c99;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; user-select: none; }
 
         body {
             margin: 0;
             padding: 0;
             background-color: #111;
-            background-image: radial-gradient(circle, #2a1a0a 0%, #000 100%);
             font-family: 'Titan One', cursive;
             height: 100vh;
             display: flex;
@@ -29,286 +34,341 @@
             overflow: hidden;
         }
 
-        /* --- LE TEMPLE --- */
-        .temple-modal {
-            width: 95%;
-            max-width: 400px;
-            background: linear-gradient(180deg, #ffaf4b 0%, #ff7b00 100%);
+        /* --- CADRE PRINCIPAL (LE MOBILE) --- */
+        .mobile-frame {
+            width: 100%;
+            max-width: 414px; /* Largeur iPhone Max */
+            height: 95vh;
+            max-height: 850px;
+            background: linear-gradient(180deg, #ff9f43 0%, #e67e22 100%);
+            border: 8px solid #d35400;
             border-radius: 20px;
             position: relative;
-            padding: 20px 25px 25px 25px;
-            box-shadow: 
-                0 0 0 4px #7a4600,
-                0 0 0 8px #ffcc00, 
-                0 20px 50px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
-            border-top: 25px solid #ffcc00;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
-        /* Colonnes latérales */
-        .temple-modal::before, .temple-modal::after {
+        /* Colonnes décoratives latérales */
+        .mobile-frame::before, .mobile-frame::after {
             content: '';
             position: absolute;
-            top: 0; bottom: 0; width: 15px;
-            background: linear-gradient(90deg, #e69d26, #ffe082, #b86e00);
-            border-right: 1px solid rgba(0,0,0,0.2);
+            top: 0; bottom: 0; width: 18px;
+            background: linear-gradient(90deg, #e67e22, #f39c12, #d35400);
+            border-right: 1px solid rgba(0,0,0,0.3);
             border-left: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+            z-index: 20;
         }
-        .temple-modal::before { left: 0; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        .temple-modal::after { right: 0; border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+        .mobile-frame::before { left: 0; }
+        .mobile-frame::after { right: 0; }
 
-        .close-btn {
-            position: absolute;
-            top: -35px; right: -10px;
-            width: 35px; height: 35px;
-            background: #d63031;
-            border: 2px solid white;
-            border-radius: 8px;
-            color: white;
-            font-size: 18px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #921819;
-            z-index: 10;
-        }
-
-        /* --- HEADER --- */
+        /* --- HEADER (HEROS) --- */
         .header {
-            text-align: center;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .title {
-            font-size: 28px;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 
-                -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000,
-                0 4px 0 #000;
-            transform: rotate(-2deg);
-            margin: 0;
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: #ffeeb0;
-            margin-top: 5px;
-            text-shadow: 1px 1px 0 #7a4600;
-        }
-
-        /* --- GRILLE --- */
-        .reward-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            border: 2px solid #b86e00;
-        }
-
-        /* --- CASES --- */
-        .slot-card {
-            background-color: var(--stone-blue);
-            box-shadow: inset 0 4px 0 rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.5);
-            border-radius: 12px;
-            height: 100px;
+            height: 300px; /* Grand header comme sur l'image */
+            background: radial-gradient(circle at center, #f1c40f 0%, #d35400 80%);
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border: 2px solid #576d85;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+            z-index: 10;
+            /* Forme arrondie en bas du header */
+            border-bottom-left-radius: 50% 20px;
+            border-bottom-right-radius: 50% 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-bottom: -20px; /* Chevauchement */
         }
 
-        .day-badge {
+        .header-art {
+            font-size: 140px;
+            color: rgba(255,255,255,0.9);
+            filter: drop-shadow(0 0 20px #e67e22);
             position: absolute;
-            top: -8px;
-            background: #d48729;
+            top: 40px;
+        }
+        
+        .sun-rays {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.1) 0deg 15deg, transparent 15deg 30deg);
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .title-text {
+            position: relative;
             color: white;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            border: 1px solid #ffe082;
-            text-shadow: 1px 1px 0 #000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 22px;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
+            margin-bottom: 10px;
+            z-index: 2;
+            width: 80%;
+            line-height: 1.2;
+        }
+
+        /* --- LISTE TIMELINE (SCROLL) --- */
+        .timeline-container {
+            flex: 1;
+            background-color: #5d4037; /* Fond marron foncé comme l'image */
+            overflow-y: auto;
+            padding: 40px 30px 20px 30px; /* Padding top pour compenser le header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0; /* Géré par les connecteurs */
+            
+            /* Masquer scrollbar */
+            scrollbar-width: none;
+        }
+        .timeline-container::-webkit-scrollbar { display: none; }
+
+        /* --- CARTE ROW --- */
+        .reward-row {
+            width: 100%;
+            height: 90px;
+            background: linear-gradient(180deg, var(--card-gradient-top) 0%, var(--card-gradient-bot) 100%);
+            border-radius: 12px;
+            border-bottom: 5px solid #dba76c;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            position: relative;
             z-index: 5;
         }
 
-        .item-icon {
-            font-size: 30px;
-            color: #fff;
-            filter: drop-shadow(0 4px 2px rgba(0,0,0,0.5));
-            margin-bottom: 5px;
+        /* Barre Bleue (Gauche) */
+        .status-bar {
+            background-color: #574b90; /* Fond violet sombre */
+            width: 160px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            position: relative;
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.5);
+            border: 2px solid #3e3366;
+        }
+
+        .status-icon {
+            width: 34px; height: 34px;
+            /* Icone couronne/horloge */
+            background: linear-gradient(#00a8ff, #0097e6);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-size: 16px;
+            border: 2px solid #fff;
+            position: absolute;
+            left: -5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .status-text {
+            color: white;
+            font-size: 13px;
+            margin-left: 35px; /* Place pour l'icone */
+            width: 100%;
+            text-align: center;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        /* Récompense (Droite) */
+        .reward-col {
+            position: relative;
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reward-img {
+            font-size: 45px;
+            color: #f1c40f;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
             z-index: 2;
         }
 
-        .amount {
+        .amount-badge {
+            position: absolute;
+            bottom: -5px;
+            right: 0;
             color: white;
+            font-size: 20px;
+            text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
+            z-index: 3;
+        }
+
+        .lock-icon {
+            position: absolute;
+            top: 0; right: -5px;
+            color: #333;
             font-size: 16px;
-            -webkit-text-stroke: 1px black;
-            text-shadow: 2px 2px 0 #000;
+            z-index: 4;
         }
 
-        /* --- ÉTAT 1 : RÉCUPÉRÉ --- */
-        .slot-card.claimed {
-            background-color: #27ae60;
-            border-color: #2ecc71;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
-        }
-        .slot-card.claimed .item-icon { opacity: 0.5; }
-        .check-mark {
-            position: absolute;
-            font-size: 30px;
-            color: #adff2f;
-            text-shadow: 0 2px 0 #006400;
-            z-index: 10;
+        /* --- CONNECTEUR (Flèche jaune) --- */
+        .connector {
+            width: 0; 
+            height: 0; 
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 15px solid #f1c40f; /* Triangle jaune */
+            margin: 5px 0;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+            z-index: 4;
         }
 
-        /* --- ÉTAT 2 : EN ATTENTE (Dispo Demain) --- */
-        .slot-card.next {
-            background: radial-gradient(circle, #4fa3ff 0%, #2980b9 100%);
-            border: 3px solid white;
-            z-index: 10;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        
-        .status-pill {
-            position: absolute;
-            bottom: -10px;
-            background: #e74c3c; /* Rouge pour attirer l'oeil */
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 2px solid white;
-            box-shadow: 0 3px 0 #c0392b;
-            white-space: nowrap; /* Empêche le texte de passer à la ligne */
-            z-index: 15;
+        /* --- FOOTER --- */
+        .footer {
+            height: 90px;
+            background: linear-gradient(180deg, #d35400 0%, #a04000 100%);
+            /* Décoration Zigzag en haut (comme image) */
+            clip-path: polygon(0 0, 10% 15%, 20% 0, 30% 15%, 40% 0, 50% 15%, 60% 0, 70% 15%, 80% 0, 90% 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -10px; /* Pour coller au bas */
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 15px;
         }
 
-        /* --- ÉTAT 3 : VERROUILLÉ --- */
-        .slot-card.locked {
-            opacity: 0.9;
-        }
-        .lock-overlay {
-            position: absolute;
-            top: 5px; right: 5px;
-            font-size: 14px;
-            color: #95a5a6;
-        }
-
-        /* --- JOUR 7 (LARGE) --- */
-        .slot-card.grand-prize {
-            grid-column: span 3;
-            height: 110px;
-            background: radial-gradient(circle, #6a0dad 0%, #3e1a52 100%);
-            border: 3px solid #ffd700;
-            flex-direction: row;
-            justify-content: space-around;
-            padding: 0 20px;
-        }
-        .grand-prize .item-icon { font-size: 50px; }
-        .prize-info { text-align: left; }
-        .prize-title { color: #ffd700; font-size: 18px; text-shadow: 1px 1px 0 #000; }
-        .prize-sub { color: #dcdcdc; font-size: 12px; }
-
-        /* --- BOUTON --- */
-        .cta-btn {
-            margin-top: 25px; /* Un peu plus d'espace pour le badge "Dispo demain" */
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(180deg, #8cec26 0%, #68b509 100%);
-            border: none;
+        .btn-close {
+            background: linear-gradient(180deg, #3498db 0%, #2980b9 100%);
+            border: 2px solid #85c1e9;
             border-radius: 12px;
+            padding: 10px 40px;
             color: white;
             font-family: 'Titan One', cursive;
-            font-size: 22px;
+            font-size: 20px;
             text-transform: uppercase;
-            border-bottom: 6px solid #4a8500;
-            text-shadow: 0 2px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 5px 0 #154360, 0 10px 10px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 0 #000;
             cursor: pointer;
         }
-        .cta-btn:active {
-            transform: translateY(4px);
-            border-bottom: 2px solid #4a8500;
+        .btn-close:active { transform: translateY(5px); box-shadow: 0 0 0 #154360; }
+
+        /* --- VARIATIONS --- */
+        
+        /* Jour 7 (Grand Prix) */
+        .reward-row.grand-prize {
+            height: 120px;
+            background: linear-gradient(180deg, #fff9c4 0%, #fbc02d 100%); /* Plus doré */
+            border: 3px solid #fff;
         }
+        .grand-prize .reward-img { font-size: 60px; color: #ffcc00; }
 
     </style>
 </head>
 <body>
 
-    <div class="temple-modal">
-        <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-
+    <div class="mobile-frame">
+        
         <div class="header">
-            <h1 class="title">Récompenses<br>Quotidiennes</h1>
-            <div class="subtitle">Reviens chaque jour !</div>
-        </div>
-
-        <div class="reward-grid">
+            <div class="sun-rays"></div>
+            <div style="position:absolute; top:50px; display:flex; gap:20px; z-index:1;">
+                <i class="fa-solid fa-chess-knight" style="font-size:80px; color:#f39c12; filter:drop-shadow(0 0 10px #000);"></i>
+                <i class="fa-solid fa-dragon" style="font-size:100px; color:#e67e22; filter:drop-shadow(0 0 10px #000); margin-top:-20px;"></i>
+            </div>
             
-            <div class="slot-card claimed">
-                <div class="day-badge" style="background:#2ecc71; border-color:#fff;">JOUR 1</div>
-                <div class="check-mark"><i class="fa-solid fa-check"></i></div>
-                <i class="fa-solid fa-sack-dollar item-icon"></i>
-                <div class="amount">100 OR</div>
-            </div>
+            <div class="title-text">Débloquez vos récompenses<br>de bienvenue</div>
+        </div>
 
-            <div class="slot-card next">
-                <div class="day-badge">JOUR 2</div>
-                <i class="fa-solid fa-gem item-icon" style="color:#2ecc71;"></i>
-                <div class="amount">x10</div>
-                <div class="status-pill">DISPO DEMAIN</div>
-            </div>
+        <div class="timeline-container">
 
-            <div class="slot-card locked">
-                <div class="lock-overlay"><i class="fa-solid fa-lock"></i></div>
-                <div class="day-badge" style="background:#7f8c8d; border-color:#95a5a6;">JOUR 3</div>
-                <i class="fa-solid fa-scroll item-icon" style="color:#f1c40f;"></i>
-                <div class="amount">RARE</div>
-            </div>
-
-            <div class="slot-card locked">
-                <div class="lock-overlay"><i class="fa-solid fa-lock"></i></div>
-                <div class="day-badge" style="background:#7f8c8d; border-color:#95a5a6;">JOUR 4</div>
-                <i class="fa-solid fa-coins item-icon" style="color:#ffd700;"></i>
-                <div class="amount">250 OR</div>
-            </div>
-
-            <div class="slot-card locked">
-                <div class="lock-overlay"><i class="fa-solid fa-lock"></i></div>
-                <div class="day-badge" style="background:#7f8c8d; border-color:#95a5a6;">JOUR 5</div>
-                <i class="fa-solid fa-bolt item-icon" style="color:#3498db;"></i>
-                <div class="amount">ÉNERGIE</div>
-            </div>
-
-            <div class="slot-card locked">
-                <div class="lock-overlay"><i class="fa-solid fa-lock"></i></div>
-                <div class="day-badge" style="background:#7f8c8d; border-color:#95a5a6;">JOUR 6</div>
-                <i class="fa-solid fa-khanda item-icon" style="color:#e74c3c;"></i>
-                <div class="amount">ÉPÉE</div>
-            </div>
-
-            <div class="slot-card grand-prize">
-                <div class="lock-overlay" style="color:#ffd700;"><i class="fa-solid fa-lock"></i></div>
-                <div class="prize-info">
-                    <div class="prize-title">COFFRE FINAL</div>
-                    <div class="prize-sub">Récompense Épique</div>
+            <div class="reward-row">
+                <div class="status-bar">
+                    <div class="status-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="status-text">0 / 1 REÇU</div>
                 </div>
-                <i class="fa-solid fa-chest item-icon" style="color:#ffd700; filter: drop-shadow(0 0 10px #ffd700);"></i>
+                <div class="reward-col">
+                    <i class="fa-solid fa-sack-dollar reward-img"></i>
+                    <div class="amount-badge">x5</div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <div class="reward-row">
+                <div class="status-bar">
+                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
+                    <div class="status-text" style="font-size:11px;">DISPONIBLE : <br>23H 59MIN</div>
+                </div>
+                <div class="reward-col">
+                    <i class="fa-solid fa-gem reward-img" style="color:#2ecc71;"></i>
+                    <div class="amount-badge">x15</div>
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <div class="reward-row">
+                <div class="status-bar">
+                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
+                    <div class="status-text">DISPONIBLE : <br>1J 23H</div>
+                </div>
+                <div class="reward-col">
+                    <i class="fa-solid fa-scroll reward-img" style="color:#3498db;"></i>
+                    <div class="amount-badge">x1</div>
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <div class="reward-row">
+                <div class="status-bar">
+                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
+                    <div class="status-text">DISPONIBLE : <br>2J 23H</div>
+                </div>
+                <div class="reward-col">
+                    <i class="fa-solid fa-coins reward-img"></i>
+                    <div class="amount-badge">x50</div>
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <div class="reward-row">
+                <div class="status-bar">
+                    <div class="status-icon" style="background:#f39c12;"><i class="fa-solid fa-clock"></i></div>
+                    <div class="status-text">DISPONIBLE : <br>3J 23H</div>
+                </div>
+                <div class="reward-col">
+                    <i class="fa-solid fa-bolt reward-img" style="color:#9b59b6;"></i>
+                    <div class="amount-badge">x20</div>
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <div class="reward-row grand-prize">
+                <div class="status-bar" style="width:180px;">
+                    <div class="status-icon" style="background:#e74c3c;"><i class="fa-solid fa-lock"></i></div>
+                    <div class="status-text" style="font-size:14px;">COFFRE FINAL</div>
+                </div>
+                <div class="reward-col" style="width:100px;">
+                    <i class="fa-solid fa-chest reward-img"></i>
+                    <div class="amount-badge" style="font-size:24px;">x100</div>
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                </div>
             </div>
 
         </div>
 
-        <button class="cta-btn">FERMER</button>
+        <div class="footer">
+            <button class="btn-close">Fermer</button>
+        </div>
+
     </div>
 
 </body>
