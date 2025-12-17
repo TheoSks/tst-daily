@@ -289,3 +289,84 @@
                 <div class="card-top">Day 2</div>
                 <div class="card-content">
                     <i class="fa-solid fa-coins coin"></i>
+                    <div class="amount">+20</div>
+                </div>
+                <div class="timer-pill" id="countdown">23:59:59</div>
+            </div>
+
+            <div class="card locked">
+                <div class="card-top"><i class="fa-solid fa-lock lock-icon"></i> Day 3</div>
+                <div class="card-content">
+                    <i class="fa-solid fa-coins coin"></i>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card locked">
+                <div class="card-top"><i class="fa-solid fa-lock lock-icon"></i> Day 4</div>
+                <div class="card-content">
+                    <i class="fa-solid fa-coins coin"></i>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card locked">
+                <div class="card-top"><i class="fa-solid fa-lock lock-icon"></i> Day 5</div>
+                <div class="card-content">
+                    <i class="fa-solid fa-coins coin"></i>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card locked">
+                <div class="card-top"><i class="fa-solid fa-lock lock-icon"></i> Day 6</div>
+                <div class="card-content">
+                    <i class="fa-solid fa-coins coin"></i>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card wide">
+                <div class="card-top">
+                    <i class="fa-solid fa-lock" style="font-size:14px;"></i> 
+                    <span style="font-weight:800; font-size:18px;">Day 7</span>
+                </div>
+                <div class="wide-text">
+                    <span class="wide-title">Extra Reward</span>
+                    <span class="wide-sub">Unlock all days to claim</span>
+                </div>
+                <i class="fa-solid fa-gift" style="font-size: 28px; color: var(--neon-gold); margin-left:10px;"></i>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Petit script pour animer le Timer
+        function startTimer(duration, display) {
+            var timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var twentyFourHours = 23 * 3600 + 16 * 60 + 20; // 23h 16m 20s
+            var display = document.querySelector('#countdown');
+            startTimer(twentyFourHours, display);
+        };
+    </script>
+</body>
+</html>
