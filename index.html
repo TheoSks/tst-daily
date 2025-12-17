@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Cartoon Rewards</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <title>Simple Daily Rewards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Palette Cartoon */
-            --bg-body: #dfe6e9;
-            --bg-screen: #edf2f7;
-            --pink-container: #ffc2f5;
-            --lime-green: #b8ff45;
-            --purple-dark: #644ec4;
-            --purple-light: #8c7ae6;
-            --yellow-card: #fff200;
-            --text-dark: #2d3436;
+            --primary: #007aff; /* Bleu système standard */
+            --success: #34c759;
+            --text-main: #1c1c1e;
+            --text-sec: #8e8e93;
+            --bg-app: #f2f2f7;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
         }
 
         * { box-sizing: border-box; }
@@ -25,339 +23,306 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-body);
-            font-family: 'Nunito', sans-serif;
+            background-color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* --- ÉCRAN MOBILE --- */
-        .mobile-screen {
+        /* --- MOBILE CONTAINER --- */
+        .mobile-frame {
             width: 100%;
             max-width: 400px;
             height: 95vh;
-            max-height: 900px;
-            background-color: var(--bg-screen);
-            border: 8px solid var(--text-dark);
-            border-radius: 40px;
-            overflow: hidden;
+            max-height: 850px;
+            background-color: var(--bg-app);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 0 rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
         }
 
         /* --- HEADER --- */
         .header {
-            padding: 30px 20px 10px 20px;
-            text-align: center;
-            flex-shrink: 0;
+            padding: 25px 20px 15px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .title {
-            font-family: 'Fredoka One', cursive;
-            font-size: 32px;
-            color: #00e600;
-            text-transform: uppercase;
-            -webkit-text-stroke: 1.5px black;
-            text-shadow: 3px 3px 0 #000;
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
             margin: 0;
-            transform: skew(-2deg);
-        }
-        
-        .subtitle {
-            font-weight: 900;
-            color: #636e72;
-            margin-top: 5px;
         }
 
-        /* --- CONTAINER LISTE (ROSE) --- */
-        .timeline-wrapper {
-            background-color: var(--pink-container);
+        .close-icon {
+            font-size: 20px;
+            color: var(--text-sec);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- LISTE --- */
+        .reward-list {
             flex: 1;
-            margin: 10px 15px 15px 15px;
-            border-radius: 25px;
-            border: 3px solid #fab1a0;
-            padding: 20px 15px;
             overflow-y: auto;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            /* Masquer la scrollbar */
-            scrollbar-width: none;
-        }
-        .timeline-wrapper::-webkit-scrollbar { display: none; }
-
-        /* --- LIGNE CONNECTEUR --- */
-        .connector {
-            width: 8px;
-            height: 25px;
-            background: repeating-linear-gradient(
-                0deg,
-                #fff 0,
-                #fff 5px,
-                transparent 5px,
-                transparent 10px
-            );
-            margin: -2px 0; /* Chevauchement léger */
-            z-index: 1;
+            gap: 12px;
         }
 
-        /* --- L'ÉLÉMENT "ROW" (La carte horizontale) --- */
-        .reward-row {
-            width: 100%;
-            height: 75px;
-            background-color: white;
-            border-radius: 50px; /* Forme de pilule */
+        /* --- CARTE ROW --- */
+        .reward-item {
+            background-color: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 10px 0 25px;
-            position: relative;
-            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            border: 1px solid transparent;
+            transition: 0.2s;
         }
 
-        /* Partie Gauche : Jour */
-        .day-label {
-            font-family: 'Fredoka One', cursive;
-            color: var(--text-dark);
-            font-size: 18px;
-            width: 60px;
-        }
-
-        /* Partie Centrale : Récompense */
-        .reward-center {
+        /* Partie Gauche : Icone + Texte */
+        .item-left {
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex: 1;
-            justify-content: center;
-        }
-        .reward-icon {
-            font-size: 28px;
-            filter: drop-shadow(0 2px 0 rgba(0,0,0,0.2));
-        }
-        .reward-amount {
-            font-weight: 900;
-            font-size: 20px;
-            color: var(--text-dark);
+            gap: 15px;
         }
 
-        /* Partie Droite : Statut (Rond) */
-        .status-circle {
-            width: 55px;
-            height: 55px;
+        /* Cercle du jour (Day Circle) */
+        .day-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f5;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid rgba(0,0,0,0.1);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-sec);
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reward-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .reward-sub {
+            font-size: 12px;
+            color: var(--text-sec);
+        }
+
+        /* Partie Droite : Statut */
+        .item-status {
+            font-size: 14px;
         }
 
         /* --- ÉTATS --- */
 
-        /* 1. CLAIMED (Violet Foncé) */
-        .reward-row.claimed {
-            background-color: var(--purple-light);
+        /* 1. COMPLÉTÉ */
+        .reward-item.completed {
+            opacity: 0.7;
+        }
+        .reward-item.completed .day-circle {
+            background-color: rgba(52, 199, 89, 0.1);
+            color: var(--success);
+        }
+        .icon-check {
+            color: var(--success);
+            font-size: 18px;
+        }
+
+        /* 2. ACTIF (Focus) */
+        .reward-item.active {
+            border: 1px solid var(--primary);
+            background-color: #f5f9ff;
+        }
+        .reward-item.active .day-circle {
+            background-color: var(--primary);
             color: white;
         }
-        .reward-row.claimed .day-label, 
-        .reward-row.claimed .reward-amount {
-            color: rgba(255,255,255,0.8);
-        }
-        .reward-row.claimed .status-circle {
-            background-color: rgba(0,0,0,0.2);
+        .btn-claim-small {
+            background-color: var(--primary);
+            color: white;
             border: none;
-        }
-        .check-icon {
-            color: #00b894; /* Vert check */
-            background: white;
-            border-radius: 50%;
-            width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px;
-            box-shadow: 0 3px 0 rgba(0,0,0,0.1);
-        }
-
-        /* 2. ACTIVE (Vert Lime - Gros Focus) */
-        .reward-row.active {
-            background-color: var(--lime-green);
-            border: 3px solid var(--text-dark); /* Gros contour noir */
-            transform: scale(1.05); /* Plus grand */
-            height: 85px;
-            box-shadow: 0 8px 0 rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-        .reward-row.active .day-label { color: black; }
-        .reward-row.active .status-circle {
-            background-color: var(--purple-dark);
-            border: 2px solid black;
-            color: white;
-            flex-direction: column;
-            line-height: 1;
-        }
-        .timer-mini { font-size: 9px; font-weight: 700; margin-top: 2px; }
-
-        /* 3. LOCKED (Jaune) */
-        .reward-row.locked {
-            background-color: var(--yellow-card);
-        }
-        .reward-row.locked .status-circle {
-            background-color: rgba(255,255,255,0.5);
-        }
-        .lock-icon { color: #d6a214; font-size: 20px; }
-
-
-        /* 4. DAY 7 (Big Box) */
-        .reward-row.big-prize {
-            height: 120px;
-            border-radius: 30px;
-            background: repeating-conic-gradient(from 0deg, #ffca28 0deg 20deg, #ffd700 20deg 40deg);
-            border: 3px solid white;
-            flex-direction: column;
-            padding: 10px;
-            justify-content: center;
-            gap: 5px;
-            text-align: center;
-        }
-        
-        .big-prize-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255,255,255,0.8);
-            padding: 10px 20px;
+            padding: 6px 14px;
             border-radius: 20px;
-            width: 100%;
-            justify-content: space-around;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* 3. VERROUILLÉ */
+        .reward-item.locked .day-circle {
+            background-color: #f9f9f9;
+            color: #d1d1d6;
+        }
+        .reward-item.locked .reward-name {
+            color: var(--text-sec);
+        }
+        .icon-lock {
+            color: #d1d1d6;
+            font-size: 16px;
+        }
+
+        /* 4. GRAND PRIX (Day 7) */
+        .reward-item.grand-prize {
+            background: linear-gradient(135deg, #fff 0%, #fff9e6 100%);
+            border: 1px solid #ffcc00;
+        }
+        .reward-item.grand-prize .day-circle {
+            background-color: #ffcc00;
+            color: #fff;
         }
 
         /* --- FOOTER --- */
         .footer {
-            padding: 0 20px 20px 20px;
-            text-align: center;
-            flex-shrink: 0;
+            padding: 20px;
+            background: var(--card-bg);
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .btn-main {
             width: 100%;
-            background-color: var(--lime-green);
-            border: 3px solid black;
-            border-radius: 50px;
-            padding: 15px;
-            font-family: 'Fredoka One', cursive;
-            font-size: 20px;
-            text-transform: uppercase;
-            box-shadow: 0 6px 0 black;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.1s;
+            transition: background 0.2s;
         }
-        .btn-main:active {
-            transform: translateY(6px);
-            box-shadow: 0 0 0 black;
+        .btn-main:hover {
+            background-color: #0062cc;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="mobile-screen">
+    <div class="mobile-frame">
         
         <div class="header">
-            <h1 class="title">Daily Track</h1>
-            <div class="subtitle">Keep the streak alive!</div>
+            <h1>Récompenses</h1>
+            <i class="fa-solid fa-xmark close-icon"></i>
         </div>
 
-        <div class="timeline-wrapper">
+        <div class="reward-list">
 
-            <div class="reward-row claimed">
-                <div class="day-label">J-1</div>
-                <div class="reward-center">
-                    <i class="fa-solid fa-coins reward-icon" style="color:#a29bfe;"></i>
-                    <span class="reward-amount">100</span>
-                </div>
-                <div class="status-circle">
-                    <div class="check-icon"><i class="fa-solid fa-check"></i></div>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row active">
-                <div class="day-label">J-2</div>
-                <div class="reward-center">
-                    <i class="fa-solid fa-ticket reward-icon" style="color:white; -webkit-text-stroke:1px black;"></i>
-                    <span class="reward-amount">300</span>
-                </div>
-                <div class="status-circle">
-                    <i class="fa-solid fa-clock"></i>
-                    <span class="timer-mini">12:30</span>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row locked">
-                <div class="day-label">J-3</div>
-                <div class="reward-center">
-                    <i class="fa-brands fa-bitcoin reward-icon" style="color:#f39c12;"></i>
-                    <span class="reward-amount">250</span>
-                </div>
-                <div class="status-circle">
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row locked">
-                <div class="day-label">J-4</div>
-                <div class="reward-center">
-                    <i class="fa-solid fa-gift reward-icon" style="color:#e17055;"></i>
-                    <span class="reward-amount">Gift</span>
-                </div>
-                <div class="status-circle">
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row locked">
-                <div class="day-label">J-5</div>
-                <div class="reward-center">
-                    <i class="fa-solid fa-gem reward-icon" style="color:#0984e3;"></i>
-                    <span class="reward-amount">x50</span>
-                </div>
-                <div class="status-circle">
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="connector"></div>
-
-            <div class="reward-row big-prize">
-                <div style="font-family:'Fredoka One'; color:#d35400; text-transform:uppercase;">Day 7 Jackpot</div>
-                <div class="big-prize-content">
-                    <div style="text-align:center;">
-                        <i class="fa-brands fa-bitcoin" style="font-size:24px; color:#f1c40f;"></i>
-                        <div style="font-weight:900;">500</div>
+            <div class="reward-item completed">
+                <div class="item-left">
+                    <div class="day-circle"><i class="fa-solid fa-check"></i></div>
+                    <div class="item-info">
+                        <span class="reward-name">100 Pièces</span>
+                        <span class="reward-sub">Jour 1</span>
                     </div>
-                    <div style="font-size:24px; font-weight:900; color:#d35400;">+</div>
-                    <div style="text-align:center;">
-                        <i class="fa-solid fa-ticket" style="font-size:24px; color:#00b894;"></i>
-                        <div style="font-weight:900;">1000</div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-check icon-check"></i>
+                </div>
+            </div>
+
+            <div class="reward-item active">
+                <div class="item-left">
+                    <div class="day-circle">J2</div>
+                    <div class="item-info">
+                        <span class="reward-name">25 Gemmes</span>
+                        <span class="reward-sub">Aujourd'hui</span>
                     </div>
+                </div>
+                <div class="item-status">
+                    <button class="btn-claim-small">Récupérer</button>
+                </div>
+            </div>
+
+            <div class="reward-item locked">
+                <div class="item-left">
+                    <div class="day-circle">J3</div>
+                    <div class="item-info">
+                        <span class="reward-name">Coffre Argent</span>
+                        <span class="reward-sub">Demain</span>
+                    </div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-lock icon-lock"></i>
+                </div>
+            </div>
+
+            <div class="reward-item locked">
+                <div class="item-left">
+                    <div class="day-circle">J4</div>
+                    <div class="item-info">
+                        <span class="reward-name">50 Gemmes</span>
+                        <span class="reward-sub">Dans 2 jours</span>
+                    </div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-lock icon-lock"></i>
+                </div>
+            </div>
+
+            <div class="reward-item locked">
+                <div class="item-left">
+                    <div class="day-circle">J5</div>
+                    <div class="item-info">
+                        <span class="reward-name">Booster XP</span>
+                        <span class="reward-sub">Dans 3 jours</span>
+                    </div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-lock icon-lock"></i>
+                </div>
+            </div>
+
+            <div class="reward-item locked">
+                <div class="item-left">
+                    <div class="day-circle">J6</div>
+                    <div class="item-info">
+                        <span class="reward-name">500 Pièces</span>
+                        <span class="reward-sub">Dans 4 jours</span>
+                    </div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-lock icon-lock"></i>
+                </div>
+            </div>
+
+            <div class="reward-item grand-prize">
+                <div class="item-left">
+                    <div class="day-circle"><i class="fa-solid fa-star"></i></div>
+                    <div class="item-info">
+                        <span class="reward-name">Coffre Légendaire</span>
+                        <span class="reward-sub">Récompense finale</span>
+                    </div>
+                </div>
+                <div class="item-status">
+                    <i class="fa-solid fa-gift" style="color:#ffcc00; font-size: 20px;"></i>
                 </div>
             </div>
 
         </div>
 
         <div class="footer">
-            <button class="btn-main">Come Back Tomorrow</button>
+            <button class="btn-main">Continuer</button>
         </div>
 
     </div>
