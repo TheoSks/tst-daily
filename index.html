@@ -1,326 +1,291 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Offer UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,600;1,900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Welcome Offer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,600;0,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-color: #2b2b3d;        /* Fond sombre derrière la modale */
-            --modal-bg: #4a548c;        /* Le bleu/violet principal de la modale */
-            --card-bg: rgba(255, 255, 255, 0.15); /* Fond des cases semi-transparent */
+            --primary-bg: #1e1e2f;
+            --modal-gradient: linear-gradient(160deg, #4b5294 0%, #363b6e 100%);
+            --card-inactive: rgba(30, 30, 50, 0.5);
             --card-border: rgba(255, 255, 255, 0.1);
-            --accent-gold: #ffce00;     /* Pièces */
-            --accent-green: #2ecc71;    /* Validation */
-            --accent-red: #ff3b30;      /* Timer fond */
-            --text-white: #ffffff;
-            --text-dim: #aab0d6;        /* Texte "Day X" */
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --neon-blue: #5d6afb;
+            --neon-gold: #ffce00;
+            --neon-green: #00ff88;
+            --timer-red: #ff4757;
+            --text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
         }
 
         body {
-            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f13;
+            background-image: radial-gradient(circle at 50% 10%, #2a2a40 0%, #0f0f13 70%);
             font-family: 'Kanit', sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            color: var(--text-white);
-        }
-
-        /* --- CONTENEUR DE LA MODALE --- */
-        .modal-container {
-            width: 100%;
-            max-width: 380px; /* Taille mobile standard */
-            background-color: var(--modal-bg);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
         }
 
-        /* --- HEADER (Icons X et ?) --- */
-        .header-nav {
+        /* --- MODALE --- */
+        .offer-modal {
+            width: 90%;
+            max-width: 400px;
+            background: var(--modal-gradient);
+            border-radius: 30px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 
+                0 0 0 1px rgba(255,255,255,0.1) inset, /* Bordure interne subtile */
+                0 20px 50px rgba(0,0,0,0.6),
+                0 0 100px rgba(75, 82, 148, 0.3); /* Glow externe */
+            border: 1px solid rgba(255,255,255,0.15);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- HEADER --- */
+        .header-actions {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
-            font-size: 20px;
-            color: white;
-            opacity: 0.9;
         }
-        .header-nav i { cursor: pointer; }
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .icon-btn:active { transform: scale(0.9); }
 
-        /* --- TITRE --- */
-        .title-section {
+        .title-container {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
         .main-title {
-            font-family: 'Kanit', sans-serif;
+            font-size: 42px;
+            line-height: 1;
             font-weight: 900;
             font-style: italic;
-            font-size: 38px;
-            color: white;
-            text-transform: capitalize;
-            /* Contour noir autour du texte comme sur l'image */
-            text-shadow:
-                -2px -2px 0 #000,
-                2px -2px 0 #000,
-                -2px 2px 0 #000,
-                2px 2px 0 #000,
-                4px 4px 0 rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-            transform: rotate(-2deg); /* Légère rotation fun */
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #d1d5e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 4px 0px #000);
+            transform: rotate(-2deg);
         }
 
-        /* --- GRILLE DES RÉCOMPENSES --- */
+        /* --- GRID --- */
         .rewards-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
 
-        /* --- CARTE INDIVIDUELLE --- */
+        /* --- CARTE BASE --- */
         .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 10px 5px;
+            background: var(--card-inactive);
+            border-radius: 16px;
+            height: 120px;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            height: 110px;
+            border: 1px solid var(--card-border);
+            /* Glassmorphism subtil */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
 
-        /* En-tête de la carte (Day X) */
-        .card-header {
+        .card-top {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--text-white);
-            margin-bottom: 5px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 5px;
+            color: rgba(255,255,255,0.6);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .card-header i.fa-lock {
-            font-size: 12px;
-            color: #d1d5e6;
-        }
-
-        /* Contenu de la carte (Icone + Montant) */
-        .card-body {
+        .card-content {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
 
-        .coin-icon {
-            width: 32px;
-            height: 32px;
-            background: radial-gradient(circle, #ffe066 0%, #e6ac00 100%);
-            border-radius: 50%;
-            border: 2px solid #ffcc00;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 16px;
-            color: #b37400;
-            box-shadow: 0 2px 0 #b38f00;
+        .coin {
+            font-size: 24px;
+            color: var(--neon-gold);
+            filter: drop-shadow(0 0 10px rgba(255, 206, 0, 0.4));
             margin-bottom: 5px;
+            animation: float 3s ease-in-out infinite;
         }
+        
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
 
         .amount {
-            font-family: 'Kanit', sans-serif;
             font-weight: 900;
             font-style: italic;
             font-size: 22px;
-            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* --- ÉTATS SPÉCIFIQUES --- */
+        /* --- VARIATIONS DES CARTES --- */
 
-        /* 1. État RECLAMÉ (Day 1) */
+        /* 1. CLAIMED (Validé) */
         .card.claimed {
-            background-color: rgba(40, 40, 60, 0.4); /* Plus sombre */
+            background: rgba(0, 0, 0, 0.2);
+            border-color: transparent;
         }
-        .card.claimed .card-header { opacity: 0.5; }
-
-        .check-circle {
-            width: 35px;
-            height: 35px;
-            background-color: var(--accent-green);
+        .card.claimed .card-top { color: #888; }
+        .card.claimed .amount { color: #888; text-shadow: none; }
+        
+        .check-badge {
+            width: 32px;
+            height: 32px;
+            background: var(--neon-green);
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            font-size: 16px;
+            color: #004d29;
+            margin-bottom: 4px;
+        }
+
+        /* 2. ACTIVE (Le jour actuel) */
+        .card.active {
+            background: linear-gradient(180deg, rgba(80, 90, 160, 0.8) 0%, rgba(60, 70, 130, 0.9) 100%);
+            border: 1px solid rgba(255,255,255,0.4);
+            overflow: visible; /* Pour le timer qui dépasse */
+            animation: pulseBorder 2s infinite;
+        }
+
+        @keyframes pulseBorder {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        .card.active .card-top {
             color: white;
-            font-size: 18px;
-            box-shadow: 0 3px 0 #219150;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
-        .claimed-amount {
-            font-size: 18px;
-            color: #aab0d6;
-            margin-top: 5px;
-        }
-        .small-c { font-size: 12px; }
-
-        /* 2. État ACTIF AVEC TIMER (Day 2) */
-        .timer-badge {
+        .timer-pill {
             position: absolute;
-            bottom: -8px;
-            background-color: var(--accent-red);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        /* 3. CARTE LARGE (Day 7) */
-        .card.wide {
-            grid-column: span 3; /* Prend toute la largeur */
-            height: auto;
-            padding: 15px;
-            margin-top: 5px;
-        }
-
-        .wide-content {
+            bottom: -10px;
+            background: var(--timer-red);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 2px solid #2b2b3d; /* Bordure qui match le fond */
+            min-width: 60px;
             text-align: center;
         }
 
-        .wide-text {
-            font-style: italic;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 1.2;
+        /* 3. LOCKED */
+        .card.locked {
+            opacity: 0.7;
         }
-        .wide-subtext {
-            font-style: italic;
-            font-weight: 400;
+        .card.locked i { color: #8892b0; filter: none; animation: none;}
+
+        /* 4. DAY 7 (Special) */
+        .card.wide {
+            grid-column: span 3;
+            height: auto;
+            padding: 15px;
+            margin-top: 10px;
+            /* Gradient Or subtil */
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 140, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card.wide .card-top {
+            width: auto;
+            border: none;
+            padding: 0;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
             font-size: 14px;
-            opacity: 0.9;
+            color: var(--neon-gold);
         }
 
-        /* Effet visuel overlay bleu sélection sur l'image source */
-        .selection-outline {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border: 2px solid #5d6afb;
-            pointer-events: none;
-            display: none; /* Je le cache, mais vous pouvez l'activer pour le debug */
+        .wide-text {
+            text-align: right;
+            flex: 1;
         }
+        .wide-title {
+            display: block;
+            font-size: 16px;
+            font-weight: 800;
+            font-style: italic;
+            color: white;
+        }
+        .wide-sub {
+            display: block;
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Lock Icon Positioning */
+        .lock-icon { font-size: 10px; margin-right: 4px; }
 
     </style>
 </head>
 <body>
 
-    <div class="modal-container">
-        <div class="header-nav">
-            <i class="fa-solid fa-xmark"></i>
-            <i class="fa-regular fa-circle-question"></i>
+    <div class="offer-modal">
+        <div class="header-actions">
+            <div class="icon-btn"><i class="fa-solid fa-xmark"></i></div>
+            <div class="icon-btn"><i class="fa-solid fa-question"></i></div>
         </div>
 
-        <div class="title-section">
-            <h1 class="main-title">Welcome Offer</h1>
+        <div class="title-container">
+            <div class="main-title">Welcome Offer</div>
         </div>
 
         <div class="rewards-grid">
 
             <div class="card claimed">
-                <div class="card-header">Day 1</div>
-                <div class="card-body">
-                    <div class="check-circle">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="amount claimed-amount">+20 <span class="small-c">©</span></div>
+                <div class="card-top">Day 1</div>
+                <div class="card-content">
+                    <div class="check-badge"><i class="fa-solid fa-check"></i></div>
+                    <div class="amount" style="font-size: 18px;">+20</div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa-solid fa-lock-open" style="font-size: 10px; opacity:0.5;"></i> Day 2
-                </div>
-                <div class="card-body">
-                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="amount">+20</div>
-                </div>
-                <div class="timer-badge">23:16:20</div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa-solid fa-lock"></i> Day 3
-                </div>
-                <div class="card-body">
-                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="amount">+20</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa-solid fa-lock"></i> Day 4
-                </div>
-                <div class="card-body">
-                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="amount">+20</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa-solid fa-lock"></i> Day 5
-                </div>
-                <div class="card-body">
-                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="amount">+20</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa-solid fa-lock"></i> Day 6
-                </div>
-                <div class="card-body">
-                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <div class="amount">+20</div>
-                </div>
-            </div>
-
-            <div class="card wide">
-                <div class="card-header" style="border:none; margin:0;">
-                    <i class="fa-solid fa-lock"></i> Day 7
-                </div>
-                <div class="wide-content">
-                    <div class="wide-text">Extra reward</div>
-                    <div class="wide-subtext">if you unlock every day</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</body>
-</html>
+            <div class="card active">
+                <div class="card-top">Day 2</div>
+                <div class="card-content">
+                    <i class="fa-solid fa-coins coin"></i>
