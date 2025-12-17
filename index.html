@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Rewards Cartoon Vertical</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <title>Juicy Colorful Rewards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Palette Cartoon */
-            --bg-app: #eef2f7;
-            --primary-blue: #4facfe;
-            --primary-blue-dark: #00f2fe;
-            --accent-gold: #ffb300;
-            --accent-green: #2ecc71;
-            --text-dark: #2c3e50;
-            --text-light: #ffffff;
-            --card-bg: #ffffff;
-            --locked-gray: #dfe6e9;
+            /* Palette "Bonbon" */
+            --bg-gradient: linear-gradient(135deg, #FF9D6C 0%, #BB4E75 100%);
+            --frame-bg: #fff5f0;
+            
+            /* Couleurs des cartes */
+            --blue-light: #4facfe; --blue-dark: #00f2fe; --blue-shadow: #2c80b3;
+            --gold-light: #ffd700; --gold-dark: #ffb900; --gold-shadow: #c78c00;
+            --green-light: #4ce46a; --green-dark: #2ecc71; --green-shadow: #1a8a44;
+            --grey-light: #dfe6e9; --grey-dark: #b2bec3; --grey-shadow: #95a5a6;
+            
+            --text-color: #fff;
+            --text-stroke: 2px #333;
         }
 
         * { box-sizing: border-box; }
@@ -26,8 +28,8 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #dcdde1;
-            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            font-family: 'Titan One', cursive;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -40,215 +42,185 @@
             max-width: 400px;
             height: 95vh;
             max-height: 850px;
-            background-color: var(--bg-app);
-            border-radius: 30px;
-            /* Bordure épaisse style cartoon */
-            border: 6px solid var(--text-dark);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background-color: var(--frame-bg);
+            border-radius: 35px;
+            /* Bordure blanche épaisse et ombre douce */
+            border: 6px solid #ffffff;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            position: relative;
         }
 
         /* --- HEADER --- */
         .header {
-            /* Dégradé sympa */
-            background: linear-gradient(to right, var(--primary-blue), var(--primary-blue-dark));
-            padding: 30px 20px;
+            /* Fond jaune éclatant avec motif */
+            background: repeating-linear-gradient(
+                45deg,
+                #FFD700,
+                #FFD700 10px,
+                #FFC300 10px,
+                #FFC300 20px
+            );
+            padding: 30px 20px 20px 20px;
             text-align: center;
-            color: var(--text-light);
-            border-bottom: 6px solid var(--text-dark);
+            border-bottom: 6px solid #E67E22;
             position: relative;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 28px;
-            font-weight: 900;
+            font-size: 30px;
+            color: white;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            /* Contour texte cartoon */
-            text-shadow: 2px 2px 0 var(--text-dark);
+            /* Gros contour pour l'effet cartoon */
+            -webkit-text-stroke: var(--text-stroke);
+            text-shadow: 3px 3px 0 #333;
+            transform: rotate(-2deg);
         }
-        .header p {
-            margin: 5px 0 0 0;
-            font-weight: 600;
-            opacity: 0.9;
+        
+        /* Décoration nuage */
+        .header::after {
+            content: ''; position: absolute; bottom: -10px; left: 0; width: 100%; height: 20px;
+            background-color: var(--frame-bg);
+            clip-path: ellipse(50% 60% at 50% 100%);
         }
 
         /* --- LISTE VERTICALE --- */
         .reward-list {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            /* Masquer la scrollbar */
+            gap: 18px;
             scrollbar-width: none;
         }
-        .reward-list::-webkit-scrollbar { display: none; }
 
-        /* --- CARTE CADEAU (ROW) --- */
+        /* --- CARTE "JUICY" (ROW) --- */
         .reward-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 15px;
+            /* Couleur par défaut (Bleu) */
+            background: linear-gradient(to bottom, var(--blue-light), var(--blue-dark));
+            border-radius: 25px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /* Ombre portée douce et bordure */
-            box-shadow: 0 8px 0 rgba(0,0,0,0.05);
-            border: 3px solid transparent;
-            transition: all 0.2s;
+            color: white;
+            
+            /* Effet 3D épais */
+            border-bottom: 8px solid var(--blue-shadow);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+            
             position: relative;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Petit reflet brillant sur le haut */
+        .reward-card::before {
+            content: ''; position: absolute; top: 5px; left: 5%; width: 90%; height: 30%;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px 20px 100% 100%;
         }
 
-        /* Partie Gauche : Info Jour */
-        .card-left {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-width: 80px;
-        }
-        .day-title {
-            font-weight: 900;
-            font-size: 18px;
-            color: var(--text-dark);
-        }
-        .day-status {
-            font-size: 12px;
-            font-weight: 700;
-            color: #95a5a6;
-            background: #ecf0f1;
-            padding: 3px 8px;
-            border-radius: 10px;
-            margin-top: 4px;
+        /* Animation au clic */
+        .reward-card:active { transform: translateY(4px); border-bottom-width: 4px; }
+
+        /* Elements internes */
+        .card-left { display: flex; flex-direction: column; min-width: 90px; }
+        .day-title { font-size: 18px; -webkit-text-stroke: 1px rgba(0,0,0,0.2); }
+        .day-status { 
+            font-size: 12px; background: rgba(255,255,255,0.3); 
+            padding: 4px 10px; border-radius: 12px; 
+            width: fit-content; margin-top: 5px;
         }
 
-        /* Partie Centrale : Récompense */
-        .card-reward {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            justify-content: center;
-        }
-        .reward-icon {
-            font-size: 32px;
-            filter: drop-shadow(0 3px 0 rgba(0,0,0,0.1));
-        }
-        .reward-amount {
-            font-size: 20px;
-            font-weight: 900;
-            color: var(--text-dark);
-        }
+        .card-reward { display: flex; align-items: center; gap: 15px; flex: 1; justify-content: center; }
+        .reward-icon { font-size: 36px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.2)); }
+        .reward-amount { font-size: 24px; -webkit-text-stroke: 1.5px rgba(0,0,0,0.4); }
 
-        /* Partie Droite : État */
-        .card-state {
-            min-width: 40px;
-            display: flex;
-            justify-content: flex-end;
-        }
+        /* --- ÉTATS COLORÉS --- */
 
-        /* --- ÉTATS SPÉCIFIQUES --- */
-
-        /* 1. RÉCUPÉRÉ (Claimed) */
+        /* 1. RÉCUPÉRÉ (Gris) */
         .reward-card.claimed {
-            background-color: #ecf0f1;
+            background: linear-gradient(to bottom, var(--grey-light), var(--grey-dark));
+            border-bottom-color: var(--grey-shadow);
+            box-shadow: none;
             opacity: 0.8;
+            color: #555;
         }
-        .reward-card.claimed .day-status {
-            background: var(--accent-green);
-            color: white;
+        .reward-card.claimed .reward-icon, .reward-card.claimed .reward-amount {
+            opacity: 0.5; -webkit-text-stroke: 0;
         }
-        .check-icon {
-            color: var(--accent-green);
-            font-size: 24px;
-            background: white;
-            border-radius: 50%;
-            padding: 5px;
-            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+        .check-badge {
+            background: var(--green-dark); color: white;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; border: 3px solid white;
+            box-shadow: 0 4px 0 var(--green-shadow);
         }
 
-        /* 2. AUJOURD'HUI (Active) */
+        /* 2. AUJOURD'HUI (Or/Jaune - Mise en avant) */
         .reward-card.active {
-            border: 3px solid var(--accent-gold);
-            background: #fffdf0; /* Légère teinte jaune */
-            transform: scale(1.02); /* Mise en avant */
-            box-shadow: 0 10px 0 rgba(255, 179, 0, 0.2);
+            background: linear-gradient(to bottom, var(--gold-light), var(--gold-dark));
+            border-bottom-color: var(--gold-shadow);
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+            z-index: 10;
         }
-        .reward-card.active .day-status {
-            background: var(--accent-gold);
-            color: var(--text-dark);
-        }
+        .reward-card.active:active { transform: scale(1.05) translateY(4px); }
+
         .claim-btn-small {
-            background: var(--accent-gold);
-            color: var(--text-dark);
-            border: 2px solid var(--text-dark);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 4px 0 var(--text-dark);
-            transition: 0.1s;
-        }
-        .claim-btn-small:active { transform: translateY(4px); box-shadow: 0 0 0 var(--text-dark); }
-
-        /* 3. DISPO DEMAIN & BIENTÔT (Locked) */
-        .reward-card.locked {
-            background-color: var(--locked-gray);
-        }
-        .reward-card.locked .reward-icon,
-        .reward-card.locked .reward-amount {
-            opacity: 0.5;
-            filter: grayscale(1);
-        }
-        .lock-icon {
-            color: #bdc3c7;
-            font-size: 22px;
-        }
-
-        /* Spécifique pour "Dispo Demain" */
-        .reward-card.tomorrow .day-status {
-            background: var(--primary-blue);
+            background: linear-gradient(to bottom, var(--green-light), var(--green-dark));
             color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-family: inherit; font-size: 14px;
+            border-bottom: 4px solid var(--green-shadow);
+            cursor: pointer; transition: 0.1s;
         }
+        .claim-btn-small:active { transform: translateY(2px); border-bottom-width: 2px; }
 
-        /* 4. GRAND PRIX (Jour 7) */
+        /* 3. VERROUILLÉ (Bleu/Violet par défaut) */
+        .reward-card.locked {
+             /* Utilise les couleurs par défaut définies dans .reward-card */
+        }
+        .lock-icon { font-size: 22px; opacity: 0.7; }
+
+        /* 4. GRAND PRIX (Arc-en-ciel) */
         .reward-card.grand-prize {
-            height: 110px;
-            background: linear-gradient(135deg, #fff 0%, #fff3cd 100%);
-            border: 3px solid var(--accent-gold);
+            height: 120px;
+            background: linear-gradient(45deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+            border-bottom-color: #c44569;
         }
         .reward-card.grand-prize .reward-icon {
-            font-size: 45px;
-            animation: bounce 2s infinite ease-in-out;
+            font-size: 50px;
+            animation: float 3s ease-in-out infinite;
         }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* --- FOOTER --- */
         .footer {
             padding: 20px;
-            background: var(--card-bg);
-            border-top: 6px solid var(--text-dark);
+            background: rgba(255,255,255,0.5);
         }
         .main-btn {
             width: 100%;
-            padding: 15px;
-            background-color: var(--accent-green);
+            padding: 18px;
+            background: linear-gradient(to bottom, var(--green-light), var(--green-dark));
             color: white;
-            border: 3px solid var(--text-dark);
-            border-radius: 25px;
-            font-size: 20px;
-            font-weight: 900;
+            border: none;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 22px;
             text-transform: uppercase;
+            border-bottom: 8px solid var(--green-shadow);
             cursor: pointer;
-            box-shadow: 0 6px 0 var(--text-dark);
             transition: 0.1s;
+            text-shadow: 0 2px 0 rgba(0,0,0,0.2);
         }
-        .main-btn:active { transform: translateY(6px); box-shadow: none; }
+        .main-btn:active { transform: translateY(4px); border-bottom-width: 4px; }
 
     </style>
 </head>
@@ -257,8 +229,7 @@
     <div class="mobile-frame">
         
         <div class="header">
-            <h1>Cadeaux Quotidiens</h1>
-            <p>Reviens chaque jour !</p>
+            <h1>Cadeaux Fun !</h1>
         </div>
 
         <div class="reward-list">
@@ -269,35 +240,35 @@
                     <span class="day-status">Récupéré</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-coins reward-icon" style="color: #f1c40f;"></i>
+                    <i class="fa-solid fa-coins reward-icon"></i>
                     <span class="reward-amount">100</span>
                 </div>
                 <div class="card-state">
-                    <i class="fa-solid fa-check check-icon"></i>
+                    <div class="check-badge"><i class="fa-solid fa-check"></i></div>
                 </div>
             </div>
 
             <div class="reward-card active">
                 <div class="card-left">
                     <span class="day-title">Jour 2</span>
-                    <span class="day-status">Aujourd'hui</span>
+                    <span class="day-status" style="color:#d35400;">Aujourd'hui !</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-ticket reward-icon" style="color: #e74c3c;"></i>
+                    <i class="fa-solid fa-ticket reward-icon" style="color:#fff;"></i>
                     <span class="reward-amount">x5</span>
                 </div>
                 <div class="card-state">
-                    <button class="claim-btn-small">Prendre</button>
+                    <button class="claim-btn-small">PRENDRE</button>
                 </div>
             </div>
 
-            <div class="reward-card locked tomorrow">
+            <div class="reward-card locked">
                 <div class="card-left">
                     <span class="day-title">Jour 3</span>
                     <span class="day-status">Dispo Demain</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-gem reward-icon" style="color: #3498db;"></i>
+                    <i class="fa-solid fa-gem reward-icon" style="color:#a2dffff3;"></i>
                     <span class="reward-amount">25</span>
                 </div>
                 <div class="card-state">
@@ -311,8 +282,8 @@
                     <span class="day-status">Bientôt</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-scroll reward-icon" style="color: #9b59b6;"></i>
-                    <span class="reward-amount">Rare</span>
+                    <i class="fa-solid fa-gift reward-icon" style="color:#ffcccb;"></i>
+                    <span class="reward-amount">Surprise</span>
                 </div>
                 <div class="card-state">
                     <i class="fa-solid fa-lock lock-icon"></i>
@@ -325,7 +296,7 @@
                     <span class="day-status">Bientôt</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-bolt reward-icon" style="color: #f39c12;"></i>
+                    <i class="fa-solid fa-bolt reward-icon" style="color:#ffeb3b;"></i>
                     <span class="reward-amount">Énergie</span>
                 </div>
                 <div class="card-state">
@@ -333,31 +304,17 @@
                 </div>
             </div>
 
-             <div class="reward-card locked">
+            <div class="reward-card grand-prize">
                 <div class="card-left">
-                    <span class="day-title">Jour 6</span>
-                    <span class="day-status">Bientôt</span>
+                    <span class="day-title">Jour 7</span>
+                    <span class="day-status" style="background: white; color: #ff6b81;">GROS LOT !</span>
                 </div>
                 <div class="card-reward">
-                    <i class="fa-solid fa-coins reward-icon" style="color: #f1c40f;"></i>
-                    <span class="reward-amount">500</span>
+                    <i class="fa-solid fa-trophy reward-icon" style="color:#ffd700;"></i>
+                    <span class="reward-amount">Légendaire</span>
                 </div>
                 <div class="card-state">
-                    <i class="fa-solid fa-lock lock-icon"></i>
-                </div>
-            </div>
-
-            <div class="reward-card locked grand-prize">
-                <div class="card-left">
-                    <span class="day-title" style="color:var(--accent-gold);">Jour 7</span>
-                    <span class="day-status" style="background:var(--accent-gold); color:var(--text-dark);">Gros Lot</span>
-                </div>
-                <div class="card-reward">
-                    <i class="fa-solid fa-gift reward-icon" style="color: var(--accent-gold);"></i>
-                    <span class="reward-amount" style="color:var(--accent-gold);">Surprise</span>
-                </div>
-                <div class="card-state">
-                    <i class="fa-solid fa-lock lock-icon" style="color:var(--accent-gold);"></i>
+                    <i class="fa-solid fa-star lock-icon" style="color:white; font-size: 28px;"></i>
                 </div>
             </div>
 
