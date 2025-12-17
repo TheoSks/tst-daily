@@ -1,347 +1,401 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ultimate Welcome Offer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,600;0,800;1,900&display=swap" rel="stylesheet">
+    <title>Cyber Rewards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-bg: #13131f;
-            --modal-bg: #2a2a40;
-            --modal-gradient: linear-gradient(180deg, #3b4185 0%, #242850 100%);
-            
-            /* Couleurs Rareté */
-            --common-border: rgba(255, 255, 255, 0.1);
-            --active-blue: #5d6afb;
-            --legendary-gold: #ffd700;
-            --legendary-orange: #ff8c00;
-            
-            /* UI */
-            --text-shadow: 0 2px 0 rgba(0,0,0,0.3);
+            --bg-overlay: rgba(0, 0, 0, 0.85);
+            --modal-bg: #121418;
+            --card-bg: #1e222b;
+            --accent-cyan: #00f2ff;
+            --accent-purple: #bd00ff;
+            --accent-gold: #ffc107;
+            --text-gray: #8b9bb4;
         }
 
         body {
             margin: 0;
-            background-color: var(--primary-bg);
-            font-family: 'Kanit', sans-serif;
+            padding: 0;
+            font-family: 'Teko', sans-serif;
+            background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop') no-repeat center center/cover;
             height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             overflow: hidden;
-            color: white;
         }
 
-        .offer-modal {
-            width: 90%;
-            max-width: 400px;
-            background: var(--modal-gradient);
-            border-radius: 32px;
-            padding: 25px;
+        /* --- LE WRAPPER MODAL --- */
+        .modal-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-overlay);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-container {
+            width: 100%;
+            max-width: 380px;
+            background: var(--modal-bg);
+            /* Bordure double fine */
+            box-shadow: 0 0 0 1px #333, 0 20px 50px rgba(0,0,0,0.8);
             position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1) inset;
-            border: 2px solid rgba(255,255,255,0.05);
+            /* Coins coupés façon Sci-Fi */
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
+            padding: 2px; /* Pour créer une bordure via le background du parent si besoin, ici géré autrement */
+        }
+        
+        /* Décoration de bordure tech */
+        .modal-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            z-index: 10;
+        }
+
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 25px 20px;
+            /* Recréer le clip-path interne pour suivre le contour */
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
+            height: 100%;
         }
 
         /* --- HEADER --- */
         .header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: flex-start;
+            margin-bottom: 25px;
         }
+        
+        .title-block h2 {
+            margin: 0;
+            font-size: 36px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: white;
+            letter-spacing: 1px;
+        }
+        .title-block span {
+            color: var(--accent-cyan);
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
         .close-btn {
-            background: rgba(0,0,0,0.3);
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            color: var(--text-gray);
+            font-size: 24px;
             cursor: pointer;
             transition: 0.2s;
         }
-        .close-btn:hover { background: rgba(255,255,255,0.1); }
+        .close-btn:hover { color: white; transform: rotate(90deg); }
 
-        .main-title {
-            text-align: center;
-            font-size: 42px;
-            font-weight: 900;
-            font-style: italic;
-            text-transform: uppercase;
-            line-height: 0.9;
-            margin-bottom: 30px;
-            text-shadow: 0 4px 0 #000;
-            transform: skew(-5deg);
-        }
-        .main-title span {
-            display: block;
-            font-size: 20px;
-            color: #aab0d6;
-            font-weight: 600;
-            text-shadow: none;
-            transform: skew(5deg); /* Annule le skew du parent */
-            margin-bottom: 5px;
-        }
-
-        /* --- GRID SYSTEM --- */
-        .rewards-grid {
+        /* --- GRID --- */
+        .grid-rewards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 15px;
         }
 
-        /* --- STANDARD CARD --- */
-        .card {
-            background: rgba(30, 30, 50, 0.5);
-            border: 1px solid var(--common-border);
-            border-radius: 16px;
-            height: 110px;
+        /* --- NOUVEAU DESIGN DES ENCARTS (CARDS) --- */
+        .cyber-card {
+            background: linear-gradient(160deg, #2a2f3d 0%, #1a1d24 100%);
+            height: 120px; /* Plus vertical */
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
+            /* Forme biseautée uniquement en bas à droite */
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s;
         }
 
-        .card-day {
-            position: absolute;
-            top: 8px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 600;
-        }
-
-        .coin-visual {
-            font-size: 22px;
-            color: #ffd700;
-            filter: drop-shadow(0 4px 0 rgba(0,0,0,0.3));
-            margin-bottom: 4px;
-        }
-        
-        .amount-text {
-            font-size: 20px;
-            font-weight: 800;
-            font-style: italic;
-        }
-
-        /* Status: Checked */
-        .card.checked {
-            background: rgba(46, 204, 113, 0.1);
-            border-color: #2ecc71;
-        }
-        .card.checked .coin-visual { display: none; }
-        .card.checked::after {
-            content: '\f00c';
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            font-size: 24px;
-            color: #2ecc71;
-        }
-
-        /* Status: Active */
-        .card.active {
-            background: linear-gradient(135deg, rgba(93, 106, 251, 0.2) 0%, rgba(93, 106, 251, 0.05) 100%);
-            border: 1px solid #5d6afb;
-            box-shadow: 0 0 15px rgba(93, 106, 251, 0.3);
-        }
-        .timer-badge {
-            position: absolute;
-            bottom: -8px;
-            background: #ff4757;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 800;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        /* --- THE LEGENDARY CARD (DAY 7) --- */
-        .legendary-container {
-            position: relative;
-            margin-top: 10px;
-        }
-
-        /* Le fond lumineux qui pulse derrière */
-        .legendary-glow {
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            background: var(--legendary-gold);
-            filter: blur(20px);
-            opacity: 0.3;
-            z-index: 0;
-            animation: pulseGlow 3s infinite;
-        }
-
-        .card.legendary {
-            grid-column: span 3;
-            height: 90px;
-            background: linear-gradient(90deg, #3d2a00 0%, #5e4200 100%);
-            border: 2px solid transparent;
-            /* Technique pour avoir une bordure dégradée */
-            background-image: linear-gradient(#251a00, #251a00), linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
-            background-origin: border-box;
-            background-clip: content-box, border-box;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
-            
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 0 25px;
-            overflow: hidden; /* Important pour l'effet sheen */
-            z-index: 1;
-        }
-
-        /* Effet de reflet qui passe (SHINE) */
-        .card.legendary::after {
+        /* Effet de scanline interne */
+        .cyber-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg);
-            animation: sheen 3s infinite;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.2) 3px
+            );
+            pointer-events: none;
         }
 
-        @keyframes sheen {
-            0% { left: -100%; }
-            20% { left: 200%; } /* Passe vite */
-            100% { left: 200%; } /* Attend */
-        }
-        
-        @keyframes pulseGlow {
-            0% { opacity: 0.2; transform: scale(0.95); }
-            50% { opacity: 0.5; transform: scale(1.05); }
-            100% { opacity: 0.2; transform: scale(0.95); }
+        .day-label {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        /* Contenu Gauche (Texte) */
-        .legendary-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .reward-visual {
+            font-size: 24px;
+            margin-top: 10px;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        .reward-value {
+            font-size: 22px;
+            color: white;
+            font-weight: 700;
+            margin-top: 5px;
             z-index: 2;
         }
-        
-        .legendary-label {
-            color: var(--legendary-gold);
-            font-size: 14px;
+
+        /* --- ÉTATS --- */
+
+        /* 1. CLAIMED */
+        .cyber-card.claimed {
+            background: #15171c;
+            border: 1px solid #333;
+        }
+        .cyber-card.claimed .reward-visual,
+        .cyber-card.claimed .reward-value {
+            opacity: 0.3;
+        }
+        .stamp {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 2px 8px;
+            font-size: 18px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-        
-        .legendary-title {
-            color: white;
-            font-size: 20px;
-            font-weight: 900;
-            font-style: italic;
-            text-shadow: 0 2px 0 #000;
+            z-index: 5;
+            box-shadow: 0 0 10px var(--accent-cyan);
+            background: rgba(0, 242, 255, 0.1);
         }
 
-        /* Contenu Droite (Icone) */
-        .legendary-icon-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
+        /* 2. ACTIVE */
+        .cyber-card.active {
+            background: linear-gradient(160deg, #2a2f3d 0%, #1a1d24 100%);
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.2); /* Glow violet */
+            border: 1px solid var(--accent-purple);
+            transform: scale(1.05);
+            z-index: 10;
         }
         
-        .legendary-icon {
-            font-size: 38px;
-            color: var(--legendary-gold);
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        /* Particules décoratives */
-        .sparkle {
+        /* Petit triangle brillant dans le coin */
+        .cyber-card.active::before {
+            content: '';
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: sparkleAnim 2s infinite;
+            bottom: 0; right: 0;
+            width: 20px; height: 20px;
+            background: var(--accent-purple);
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            z-index: 3;
         }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        @keyframes sparkleAnim { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        .timer-strip {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 85%; /* S'arrête avant le coin coupé */
+            background: var(--accent-purple);
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 600;
+            padding: 2px 0;
+        }
+
+        /* 3. LOCKED */
+        .cyber-card.locked {
+            opacity: 0.6;
+        }
+        .cyber-card.locked i { color: #444; }
+
+        /* --- DAY 7: THE BOSS CARD --- */
+        .day7-wrapper {
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .cyber-card.gold {
+            width: 100%;
+            height: 100px;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-sizing: border-box;
+            background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
+            border: 1px solid var(--accent-gold);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            box-shadow: inset 0 0 30px rgba(255, 193, 7, 0.1);
+        }
+
+        .gold-info {
+            text-align: left;
+        }
+        .gold-label {
+            color: var(--accent-gold);
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .gold-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .gold-icon {
+            font-size: 40px;
+            color: var(--accent-gold);
+            animation: pulseGold 2s infinite;
+            filter: drop-shadow(0 0 15px var(--accent-gold));
+        }
+
+        @keyframes pulseGold { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* --- BUTTON --- */
+        .action-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            font-family: 'Teko', sans-serif;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn:hover {
+            background: #a000db;
+            letter-spacing: 3px;
+        }
+
+        /* Effet brillant sur le bouton */
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            animation: sheenBtn 3s infinite;
+        }
+        @keyframes sheenBtn { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
 
     </style>
 </head>
 <body>
 
-    <div class="offer-modal">
-        <div class="header">
-            <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
-            <div class="close-btn"><i class="fa-solid fa-question"></i></div>
-        </div>
-
-        <h1 class="main-title">
-            <span>Daily Login</span>
-            Welcome Offer
-        </h1>
-
-        <div class="rewards-grid">
-            <div class="card checked">
-                <div class="card-day">DAY 1</div>
-            </div>
-
-            <div class="card active">
-                <div class="card-day" style="color:#fff;">DAY 2</div>
-                <i class="fa-solid fa-coins coin-visual"></i>
-                <div class="amount-text">+20</div>
-                <div class="timer-badge">14:02:45</div>
-            </div>
-
-            <div class="card">
-                <div class="card-day"><i class="fa-solid fa-lock" style="font-size:10px; margin-right:4px;"></i> DAY 3</div>
-                <i class="fa-solid fa-coins coin-visual" style="opacity:0.3;"></i>
-                <div class="amount-text" style="opacity:0.5;">+20</div>
-            </div>
-
-            <div class="card">
-                <div class="card-day"><i class="fa-solid fa-lock" style="font-size:10px; margin-right:4px;"></i> DAY 4</div>
-                <i class="fa-solid fa-coins coin-visual" style="opacity:0.3;"></i>
-                <div class="amount-text" style="opacity:0.5;">+20</div>
-            </div>
-
-            <div class="card">
-                <div class="card-day"><i class="fa-solid fa-lock" style="font-size:10px; margin-right:4px;"></i> DAY 5</div>
-                <i class="fa-solid fa-coins coin-visual" style="opacity:0.3;"></i>
-                <div class="amount-text" style="opacity:0.5;">+20</div>
-            </div>
-
-            <div class="card">
-                <div class="card-day"><i class="fa-solid fa-lock" style="font-size:10px; margin-right:4px;"></i> DAY 6</div>
-                <i class="fa-solid fa-coins coin-visual" style="opacity:0.3;"></i>
-                <div class="amount-text" style="opacity:0.5;">+20</div>
-            </div>
-        </div>
-
-        <div class="legendary-container">
-            <div class="legendary-glow"></div>
-            
-            <div class="card legendary">
-                <div class="legendary-info">
-                    <div class="legendary-label"><i class="fa-solid fa-crown"></i> Day 7 Final</div>
-                    <div class="legendary-title">Extra Reward</div>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-content">
+                
+                <div class="header">
+                    <div class="title-block">
+                        <span>Daily Login</span>
+                        <h2>Sector 7</h2>
+                    </div>
+                    <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
                 </div>
 
-                <div class="legendary-icon-wrapper">
-                    <div class="sparkle" style="width:4px; height:4px; top:0; left:0; animation-delay:0.2s;"></div>
-                    <div class="sparkle" style="width:6px; height:6px; bottom:10px; left:-10px; animation-delay:0.5s;"></div>
-                    <div class="sparkle" style="width:3px; height:3px; top:-5px; right:10px; animation-delay:0.8s;"></div>
+                <div class="grid-rewards">
                     
-                    <i class="fa-solid fa-gift legendary-icon"></i>
+                    <div class="cyber-card claimed">
+                        <div class="day-label">01</div>
+                        <i class="fa-solid fa-bolt reward-visual" style="color:#555;"></i>
+                        <div class="reward-value">200</div>
+                        <div class="stamp">TAKEN</div>
+                    </div>
+
+                    <div class="cyber-card active">
+                        <div class="day-label" style="color:var(--accent-purple);">02</div>
+                        <i class="fa-solid fa-microchip reward-visual" style="color:var(--accent-purple);"></i>
+                        <div class="reward-value">50</div>
+                        <div class="timer-strip">14:22:05</div>
+                    </div>
+
+                    <div class="cyber-card locked">
+                        <div class="day-label">03</div>
+                        <i class="fa-solid fa-cube reward-visual"></i>
+                        <div class="reward-value">X2</div>
+                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
+                    </div>
+
+                    <div class="cyber-card locked">
+                        <div class="day-label">04</div>
+                        <i class="fa-solid fa-coins reward-visual"></i>
+                        <div class="reward-value">100</div>
+                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
+                    </div>
+
+                    <div class="cyber-card locked">
+                        <div class="day-label">05</div>
+                        <i class="fa-solid fa-shield-halved reward-visual"></i>
+                        <div class="reward-value">Skin</div>
+                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
+                    </div>
+
+                    <div class="cyber-card locked">
+                        <div class="day-label">06</div>
+                        <i class="fa-solid fa-dna reward-visual"></i>
+                        <div class="reward-value">Rare</div>
+                        <i class="fa-solid fa-lock" style="position:absolute; top:10px; right:10px; font-size:12px; color:#555;"></i>
+                    </div>
+
                 </div>
+
+                <div class="day7-wrapper">
+                    <div class="cyber-card gold">
+                        <div class="gold-info">
+                            <div class="gold-label">Final Target</div>
+                            <div class="gold-title">Omega Chest</div>
+                        </div>
+                        <i class="fa-solid fa-box-open gold-icon"></i>
+                    </div>
+                </div>
+
+                <button class="action-btn">Initialize Day 2</button>
+
             </div>
         </div>
-
     </div>
 
 </body>
