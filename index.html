@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Offer UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,600;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #2b2b3d;        /* Fond sombre derrière la modale */
+            --modal-bg: #4a548c;        /* Le bleu/violet principal de la modale */
+            --card-bg: rgba(255, 255, 255, 0.15); /* Fond des cases semi-transparent */
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-gold: #ffce00;     /* Pièces */
+            --accent-green: #2ecc71;    /* Validation */
+            --accent-red: #ff3b30;      /* Timer fond */
+            --text-white: #ffffff;
+            --text-dim: #aab0d6;        /* Texte "Day X" */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Kanit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-white);
+        }
+
+        /* --- CONTENEUR DE LA MODALE --- */
+        .modal-container {
+            width: 100%;
+            max-width: 380px; /* Taille mobile standard */
+            background-color: var(--modal-bg);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- HEADER (Icons X et ?) --- */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: white;
+            opacity: 0.9;
+        }
+        .header-nav i { cursor: pointer; }
+
+        /* --- TITRE --- */
+        .title-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .main-title {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 38px;
+            color: white;
+            text-transform: capitalize;
+            /* Contour noir autour du texte comme sur l'image */
+            text-shadow:
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                2px 2px 0 #000,
+                4px 4px 0 rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+            transform: rotate(-2deg); /* Légère rotation fun */
+        }
+
+        /* --- GRILLE DES RÉCOMPENSES --- */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+            gap: 10px;
+        }
+
+        /* --- CARTE INDIVIDUELLE --- */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 110px;
+        }
+
+        /* En-tête de la carte (Day X) */
+        .card-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .card-header i.fa-lock {
+            font-size: 12px;
+            color: #d1d5e6;
+        }
+
+        /* Contenu de la carte (Icone + Montant) */
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coin-icon {
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle, #ffe066 0%, #e6ac00 100%);
+            border-radius: 50%;
+            border: 2px solid #ffcc00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #b37400;
+            box-shadow: 0 2px 0 #b38f00;
+            margin-bottom: 5px;
+        }
+
+        .amount {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 22px;
+            color: white;
+        }
+
+        /* --- ÉTATS SPÉCIFIQUES --- */
+
+        /* 1. État RECLAMÉ (Day 1) */
+        .card.claimed {
+            background-color: rgba(40, 40, 60, 0.4); /* Plus sombre */
+        }
+        .card.claimed .card-header { opacity: 0.5; }
+
+        .check-circle {
+            width: 35px;
+            height: 35px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 3px 0 #219150;
+        }
+
+        .claimed-amount {
+            font-size: 18px;
+            color: #aab0d6;
+            margin-top: 5px;
+        }
+        .small-c { font-size: 12px; }
+
+        /* 2. État ACTIF AVEC TIMER (Day 2) */
+        .timer-badge {
+            position: absolute;
+            bottom: -8px;
+            background-color: var(--accent-red);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* 3. CARTE LARGE (Day 7) */
+        .card.wide {
+            grid-column: span 3; /* Prend toute la largeur */
+            height: auto;
+            padding: 15px;
+            margin-top: 5px;
+        }
+
+        .wide-content {
+            text-align: center;
+        }
+
+        .wide-text {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 1.2;
+        }
+        .wide-subtext {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Effet visuel overlay bleu sélection sur l'image source */
+        .selection-outline {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid #5d6afb;
+            pointer-events: none;
+            display: none; /* Je le cache, mais vous pouvez l'activer pour le debug */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="modal-container">
+        <div class="header-nav">
+            <i class="fa-solid fa-xmark"></i>
+            <i class="fa-regular fa-circle-question"></i>
+        </div>
+
+        <div class="title-section">
+            <h1 class="main-title">Welcome Offer</h1>
+        </div>
+
+        <div class="rewards-grid">
+
+            <div class="card claimed">
+                <div class="card-header">Day 1</div>
+                <div class="card-body">
+                    <div class="check-circle">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="amount claimed-amount">+20 <span class="small-c">©</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-lock-open" style="font-size: 10px; opacity:0.5;"></i> Day 2
+                </div>
+                <div class="card-body">
+                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="amount">+20</div>
+                </div>
+                <div class="timer-badge">23:16:20</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-lock"></i> Day 3
+                </div>
+                <div class="card-body">
+                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-lock"></i> Day 4
+                </div>
+                <div class="card-body">
+                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-lock"></i> Day 5
+                </div>
+                <div class="card-body">
+                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-lock"></i> Day 6
+                </div>
+                <div class="card-body">
+                    <div class="coin-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                    <div class="amount">+20</div>
+                </div>
+            </div>
+
+            <div class="card wide">
+                <div class="card-header" style="border:none; margin:0;">
+                    <i class="fa-solid fa-lock"></i> Day 7
+                </div>
+                <div class="wide-content">
+                    <div class="wide-text">Extra reward</div>
+                    <div class="wide-subtext">if you unlock every day</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
