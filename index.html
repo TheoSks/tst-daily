@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Rewards Perfect Clone</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --font-main: 'Fredoka', sans-serif;
@@ -14,8 +14,16 @@
             --card-body-bg-top: #fbf9ff;
             --card-body-bg-bot: #dcd2ff;
             --color-green: #56e32d;
-            --color-cyan: #00eaff;
-            --color-purple-dark: #4a2c85;
+            
+            /* Couleurs spécifiques Header/Ribbon */
+            --cyan-light: #4ffaff;
+            --cyan-main: #00dcea;
+            --cyan-shadow: #007c91;
+            --text-shadow: #0a5f68;
+            --timer-bg-top: #ece5ff;
+            --timer-bg-bot: #b4a6e0;
+            --timer-border: #ffffff;
+            --rivet-color: #aebcd1;
             --stroke-color: #6d5b9e;
         }
 
@@ -31,14 +39,15 @@
             overflow: hidden;
         }
 
-        /* --- BACKGROUND COMPLEXE (CERCLES) --- */
+        /* --- CONTAINER PRINCIPAL --- */
         .app-container {
             width: 100%;
-            max-width: 414px; /* Largeur iPhone Max */
-            height: 100vh; /* Plein écran mobile */
+            max-width: 414px;
+            height: 100vh;
             max-height: 850px;
+            /* Fond complexe avec cercles et dégradé */
             background: 
-                radial-gradient(circle at 50% 35%, rgba(68, 86, 184, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, transparent 0%, transparent 35%, rgba(40, 50, 100, 0.3) 36%, rgba(40, 50, 100, 0.3) 50%, transparent 51%),
                 repeating-radial-gradient(circle at 50% 35%, transparent 0, transparent 40px, rgba(50, 60, 120, 0.1) 41px, rgba(50, 60, 120, 0.1) 60px),
                 linear-gradient(180deg, #181945 0%, #291852 100%);
             position: relative;
@@ -50,108 +59,148 @@
             box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
-        /* --- HEADER & RIBBON --- */
+        /* --- NOUVEAU HEADER (RIBBON + TIMER MECANIQUE) --- */
         .header-section {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
             position: relative;
             z-index: 10;
         }
 
-        .ribbon-wrapper {
+        /* 1. Le Ruban Courbé */
+        .ribbon-container {
             position: relative;
             width: 100%;
-            display: flex;
-            justify-content: center;
-            filter: drop-shadow(0 8px 0 rgba(0,0,0,0.2));
-            margin-bottom: 5px;
-        }
-
-        .ribbon-body {
-            background: linear-gradient(180deg, #4ffaff 0%, #00b8d4 50%, #009eb8 100%);
-            padding: 12px 60px;
-            border-radius: 8px 8px 40px 40px; /* Courbe vers le bas */
-            position: relative;
-            z-index: 2;
-            clip-path: path("M0,0 H280 Q290,20 280,50 Q140,65 0,50 Q-10,20 0,0 Z"); /* Forme SVG personnalisée simulée */
-            width: 320px;
-            height: 60px;
+            height: 70px;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 10;
         }
 
-        .ribbon-text {
-            color: white;
-            font-size: 26px;
-            font-weight: 800;
-            text-shadow: 0 2px 0 #006064, 0 3px 5px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-            margin-top: -5px;
+        .ribbon-main {
+            background: linear-gradient(180deg, var(--cyan-light) 0%, var(--cyan-main) 100%);
+            width: 320px;
+            height: 65px;
+            position: relative;
+            z-index: 2;
+            /* Astuce pour la courbe : border-radius différentiel */
+            border-radius: 50% 50% 10% 10% / 15% 15% 10% 10%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 0 rgba(0,0,0,0.2);
         }
-        
-        .ribbon-tail-left, .ribbon-tail-right {
+
+        /* Les bouts du ruban pliés derrière */
+        .ribbon-back-left, .ribbon-back-right {
             position: absolute;
-            top: 10px;
-            width: 40px;
+            top: 15px;
+            width: 50px;
             height: 40px;
-            background: #007c91;
+            background: var(--cyan-shadow);
             z-index: 1;
             border-radius: 5px;
         }
-        .ribbon-tail-left { left: 20px; transform: rotate(-20deg); }
-        .ribbon-tail-right { right: 20px; transform: rotate(20deg); }
+        .ribbon-back-left { left: 15px; transform: rotate(-15deg); }
+        .ribbon-back-right { right: 15px; transform: rotate(15deg); }
 
-        /* Bouton X de fermeture */
+        .ribbon-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 0px 3px 0px var(--text-shadow);
+            letter-spacing: 0.5px;
+            padding-top: 5px; 
+        }
+
         .close-btn {
             position: absolute;
-            right: 40px;
-            top: 15px;
-            font-weight: bold;
-            color: #1a3b6e;
-            font-size: 16px;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #0f4c5c;
+            font-weight: 900;
+            font-size: 18px;
             cursor: pointer;
-            z-index: 10;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
         }
 
-        /* --- TIMER --- */
+        /* Étoiles brillantes */
+        .star { position: absolute; color: white; animation: sparkle 2s infinite; }
+        .s1 { top: -5px; left: 60px; font-size: 14px; }
+        .s2 { top: 0px; right: 50px; font-size: 20px; }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* 2. Le Timer Mécanique */
+        .timer-section {
+            margin-top: 5px;
+            text-align: center;
+            position: relative;
+            z-index: 5; 
+        }
+
         .timer-label {
             color: white;
-            font-size: 14px;
             font-style: italic;
             font-weight: 700;
-            margin-bottom: 4px;
-            text-shadow: 0 2px 2px rgba(0,0,0,0.8);
+            font-size: 14px;
+            margin-bottom: -6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 2;
         }
 
-        .timer-pill {
-            background: linear-gradient(180deg, #dccfff 0%, #9e8eff 100%);
-            padding: 4px 16px;
-            border-radius: 20px;
-            border: 2px solid white;
-            box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+        .timer-plate {
+            background: linear-gradient(180deg, var(--timer-bg-top) 0%, var(--timer-bg-bot) 100%);
+            border: 3px solid var(--timer-border);
+            border-radius: 30px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 220px;
+            height: 45px;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .timer-content {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 20px;
+            flex: 1;
+            justify-content: center;
         }
 
-        .timer-text {
-            color: #553c8b;
-            font-weight: 800;
-            font-size: 15px;
-            font-style: italic;
+        .clock-icon { font-size: 20px; filter: drop-shadow(0 2px 0 rgba(0,0,0,0.2)); }
+        .time-text { color: #4a3b75; font-weight: 800; font-style: italic; font-size: 18px; }
+
+        .rivet {
+            width: 8px;
+            height: 8px;
+            background: var(--rivet-color);
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 2px white, inset -1px -1px 2px rgba(0,0,0,0.3);
+            border: 1px solid #8e8eb4;
         }
 
         /* --- PROGRESS BAR --- */
         .progress-container {
             width: 95%;
             position: relative;
-            height: 80px; /* Espace pour les coffres */
+            height: 80px; 
             margin-bottom: 10px;
             display: flex;
             align-items: flex-end;
@@ -159,7 +208,6 @@
             padding: 0 10px;
         }
 
-        /* La barre bleue derrière */
         .progress-track {
             position: absolute;
             bottom: 15px;
@@ -173,13 +221,12 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* La barre jaune de progression */
         .progress-fill {
             position: absolute;
             bottom: 15px;
             left: 12px;
-            height: 10px; /* Plus petit pour rentrer dans la track */
-            width: 18%; /* Ajuster la progression ici */
+            height: 10px; 
+            width: 18%; 
             background: linear-gradient(90deg, #ffd900, #ffae00);
             border-radius: 10px;
             z-index: 1;
@@ -210,7 +257,6 @@
             box-shadow: 0 3px 0 rgba(0,0,0,0.3);
         }
 
-        /* État "Completed" (Coche verte) */
         .step.completed .step-circle {
             background: linear-gradient(180deg, #7aff6e, #1ba611);
             border-color: white;
@@ -218,13 +264,11 @@
             font-size: 18px;
         }
 
-        /* Les Icônes Coffres (Placeholders) */
         .chest-img {
             width: 40px;
             height: 40px;
             margin-bottom: 5px;
             filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4));
-            /* PLACEHOLDER VISUEL : Emoji pour simuler l'image 3D */
             display: flex; align-items: center; justify-content: center; font-size: 28px;
         }
 
@@ -246,7 +290,7 @@
             border: 3px solid white;
             box-shadow: 0 6px 0 #7e6bb5, 0 10px 10px rgba(0,0,0,0.3);
             position: relative;
-            overflow: hidden; /* Important pour le bandeau "Claimed" */
+            overflow: hidden; 
         }
 
         .card-header {
@@ -270,28 +314,20 @@
             min-height: 80px;
         }
 
-        /* Style des textes (quantités) */
         .amount-text {
             font-weight: 900;
             font-size: 18px;
             color: white;
-            -webkit-text-stroke: 1.5px #cf9900; /* Contour jaune/or */
+            -webkit-text-stroke: 1.5px #cf9900; 
             text-shadow: 0 2px 0 rgba(0,0,0,0.2);
             font-style: italic;
         }
         .amount-text.blue { -webkit-text-stroke: 1.5px #3a7caf; }
 
-        /* --- CARD VARIANTS --- */
-
         /* Day 1: Claimed */
-        .card.claimed {
-            filter: grayscale(100%); /* Rend tout gris */
-            opacity: 0.9;
-        }
+        .card.claimed { filter: grayscale(100%); opacity: 0.9; }
         .card.claimed::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.1);
         }
         .banner-claimed {
@@ -311,7 +347,7 @@
             white-space: nowrap;
         }
 
-        /* Day 2: Today (Active) */
+        /* Day 2: Today */
         .card.today {
             border: 3px solid #5aff6c;
             background: radial-gradient(circle, #bfaaff 0%, #8e74ff 100%);
@@ -325,15 +361,11 @@
             text-shadow: 0 1px 0 rgba(255,255,255,0.4);
         }
         .card.today .card-body {
-            /* Effet de glow derrière les pièces */
             background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
         }
 
         /* --- DAY 7 (LARGE) --- */
-        .day-7-wrapper {
-            width: 100%;
-            margin-top: 5px;
-        }
+        .day-7-wrapper { width: 100%; margin-top: 5px; }
         
         .card-day7 {
             width: 100%;
@@ -359,17 +391,13 @@
             justify-content: space-around;
             align-items: flex-end;
             padding: 10px 10px 15px 10px;
-            background-image: radial-gradient(white 1px, transparent 1px); /* Étoiles */
+            background-image: radial-gradient(white 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        .reward-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .reward-group { display: flex; flex-direction: column; align-items: center; }
 
-        /* --- PLACEHOLDER ICONS (To be replaced by images) --- */
+        /* Placeholders Icons */
         .icon { font-size: 32px; margin-bottom: -5px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.2)); }
         .icon-lg { font-size: 42px; margin-bottom: -5px; filter: drop-shadow(0 0 10px white); }
         .icon-coins { color: #ffd700; }
@@ -383,19 +411,27 @@
     <div class="app-container">
 
         <div class="header-section">
-            <div class="ribbon-wrapper">
-                <div class="ribbon-tail-left"></div>
-                <div class="ribbon-tail-right"></div>
-                <div class="ribbon-body">
-                    <span class="ribbon-text">Daily Rewards</span>
-                    <span class="close-btn">✖</span>
+            <div class="ribbon-container">
+                <div class="ribbon-back-left"></div>
+                <div class="ribbon-back-right"></div>
+                <div class="ribbon-main">
+                    <h1 class="ribbon-title">Daily Rewards</h1>
+                    <button class="close-btn">✖</button>
                 </div>
+                <div class="star s1">✦</div>
+                <div class="star s2">✦</div>
             </div>
-            
-            <div class="timer-label">Expires in:</div>
-            <div class="timer-pill">
-                <span>⏱️</span>
-                <span class="timer-text">8h 59m 30s</span>
+        
+            <div class="timer-section">
+                <div class="timer-label">Expires in:</div>
+                <div class="timer-plate">
+                    <div class="rivet left"></div>
+                    <div class="timer-content">
+                        <span class="clock-icon">⏱️</span>
+                        <span class="time-text">8h 59m 30s</span>
+                    </div>
+                    <div class="rivet right"></div>
+                </div>
             </div>
         </div>
 
@@ -404,19 +440,23 @@
             <div class="progress-fill"></div>
 
             <div class="step completed">
-                <div class="chest-img">📦</div> <div class="step-circle">✓</div>
+                <div class="chest-img">📦</div> 
+                <div class="step-circle">✓</div>
             </div>
 
             <div class="step">
-                <div class="chest-img">🎁</div> <div class="step-circle">15</div>
+                <div class="chest-img">🎁</div> 
+                <div class="step-circle">15</div>
             </div>
 
             <div class="step">
-                <div class="chest-img">🎁</div> <div class="step-circle">22</div>
+                <div class="chest-img">🎁</div> 
+                <div class="step-circle">22</div>
             </div>
 
             <div class="step">
-                <div class="chest-img">🎁</div> <div class="step-circle">28</div>
+                <div class="chest-img">🎁</div> 
+                <div class="step-circle">28</div>
             </div>
         </div>
 
@@ -427,7 +467,7 @@
                 <div class="card-header">Day 1</div>
                 <div class="card-body">
                     <div class="icon icon-coins">🪙</div>
-                    </div>
+                </div>
             </div>
 
             <div class="card today">
@@ -480,7 +520,8 @@
                         <div class="amount-text">x1,000</div>
                     </div>
                     <div class="reward-group">
-                        <div class="icon-lg icon-box">🟪</div> <div class="amount-text">x2</div>
+                        <div class="icon-lg icon-box">🟪</div> 
+                        <div class="amount-text">x2</div>
                     </div>
                     <div class="reward-group">
                         <div class="icon icon-glass">⏳</div>
