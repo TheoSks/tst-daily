@@ -39,17 +39,31 @@
             overflow: hidden;
         }
 
-        /* --- CONTAINER PRINCIPAL --- */
+        /* --- CONTAINER PRINCIPAL AVEC NOUVEAU BACKGROUND --- */
         .app-container {
             width: 100%;
             max-width: 414px;
             height: 100vh;
             max-height: 850px;
-            /* Fond complexe avec cercles et dégradé */
-            background: 
-                radial-gradient(circle at 50% 20%, transparent 0%, transparent 35%, rgba(40, 50, 100, 0.3) 36%, rgba(40, 50, 100, 0.3) 50%, transparent 51%),
-                repeating-radial-gradient(circle at 50% 35%, transparent 0, transparent 40px, rgba(50, 60, 120, 0.1) 41px, rgba(50, 60, 120, 0.1) 60px),
-                linear-gradient(180deg, #181945 0%, #291852 100%);
+            
+            /* BACKGROUND INTÉGRÉ ICI */
+            background-color: #1a0b36;
+            background-image: 
+                /* 1. Lumière centrale (Glow) */
+                radial-gradient(circle at 50% 30%, rgba(79, 94, 184, 0.3) 0%, transparent 60%),
+                
+                /* 2. Les cercles concentriques (Effet Tunnel) */
+                repeating-radial-gradient(
+                    circle at 50% 40%, 
+                    transparent 0, 
+                    transparent 40px, 
+                    rgba(255, 255, 255, 0.04) 41px, 
+                    rgba(255, 255, 255, 0.04) 80px
+                ),
+                
+                /* 3. Dégradé de fond sombre global */
+                linear-gradient(180deg, #251852 0%, #120829 100%);
+                
             position: relative;
             display: flex;
             flex-direction: column;
