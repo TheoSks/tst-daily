@@ -61,16 +61,17 @@
         .container {
             width: 100%;
             max-width: 420px;
-            background: linear-gradient(180deg, #2b4a8f 0%, #1e3470 100%);
-            border-radius: 30px;
-            padding: 25px 20px;
+            background: linear-gradient(180deg, #334d99 0%, #2b4a8f 30%, #1e3470 100%);
+            border-radius: 35px;
+            padding: 28px 22px;
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.7),
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                inset 0 1px 2px rgba(255, 255, 255, 0.1);
+                0 25px 70px rgba(0, 0, 0, 0.8),
+                0 15px 40px rgba(0, 0, 0, 0.6),
+                0 5px 15px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.12);
             position: relative;
             z-index: 1;
-            border: 3px solid rgba(255, 255, 255, 0.15);
+            border: 4px solid rgba(255, 255, 255, 0.18);
         }
 
         .container::before {
@@ -79,9 +80,9 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 150px;
-            background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-            border-radius: 30px 30px 0 0;
+            height: 180px;
+            background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 35px 35px 0 0;
             pointer-events: none;
         }
 
@@ -217,16 +218,17 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(180deg, #f0f0ff 0%, #d8d8f0 50%, #c0c0e0 100%);
-            padding: 10px 25px;
-            border-radius: 30px;
+            background: linear-gradient(180deg, #f5f5ff 0%, #e5e5f5 30%, #d8d8f0 60%, #c0c0e0 100%);
+            padding: 11px 28px;
+            border-radius: 35px;
             box-shadow:
-                0 4px 0 #9090b8,
-                0 6px 0 #7878a0,
-                0 10px 20px rgba(0, 0, 0, 0.4),
-                inset 0 2px 4px rgba(255, 255, 255, 0.6),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+                0 4px 0 #a0a0c8,
+                0 7px 0 #8888b0,
+                0 10px 0 #7070a0,
+                0 14px 25px rgba(0, 0, 0, 0.5),
+                inset 0 3px 6px rgba(255, 255, 255, 0.7),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.6);
         }
 
         .timer-badge i {
@@ -249,7 +251,7 @@
 
         /* Barre de progression */
         .progress-section {
-            margin-bottom: 25px;
+            margin-bottom: 28px;
             position: relative;
         }
 
@@ -365,8 +367,8 @@
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 15px;
+            gap: 14px;
+            margin-bottom: 18px;
         }
 
         /* Carte jour */
@@ -426,34 +428,46 @@
         }
 
         .reward-text {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 22px;
+            font-weight: 800;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow:
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                3px 3px 6px rgba(0, 0, 0, 0.4),
+                0 0 8px rgba(0, 0, 0, 0.2);
         }
 
         /* Carte "Claimed" */
         .day-card.claimed {
-            background: linear-gradient(180deg, #a8a0c8 0%, #8880a8 100%);
-            box-shadow: 0 6px 0 #6860a0, 0 8px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(180deg, #b8b0d8 0%, #a098c0 40%, #9088b0 100%);
+            box-shadow:
+                0 7px 0 #7870a8,
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+            opacity: 0.85;
         }
 
         .day-card.claimed .day-content {
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .claimed-banner {
             position: absolute;
-            bottom: 12px;
+            bottom: 14px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
-            padding: 6px 20px;
-            border-radius: 12px;
-            font-size: 14px;
+            background: linear-gradient(180deg, #5ef88d 0%, #4ade80 50%, #22c55e 100%);
+            padding: 7px 24px;
+            border-radius: 14px;
+            font-size: 15px;
             font-weight: 700;
             color: white;
-            box-shadow: 0 3px 0 #16a34a, 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow:
+                0 4px 0 #16a34a,
+                0 6px 12px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* Carte "Today" active */
@@ -587,10 +601,13 @@
         }
 
         .day7-text {
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 800;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow:
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                3px 3px 6px rgba(0, 0, 0, 0.4),
+                0 0 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Icônes coins */
