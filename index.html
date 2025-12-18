@@ -3,407 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Rewards UI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Daily Rewards Perfect Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
     <style>
-       :root {
-    --bg-dark: #1e1145;
-    --bg-light: #2a3b90;
-    --card-bg: linear-gradient(180deg, #f0ebff 0%, #dcd0ff 100%);
-    --card-border: #fff;
-    --card-shadow: 0 6px 0 #9e8eff;
-    --text-blue: #4a4a8a;
-    --cyan-light: #4ffaff;
-    --cyan-dark: #00b8d4;
-    --green-light: #6aff78;
-    --green-dark: #2ba835;
-    --gold: #ffcc00;
-}
+        :root {
+            --font-main: 'Fredoka', sans-serif;
+            --color-bg-deep: #1a0b36;
+            --color-bg-light: #2c3e85;
+            --card-header-bg: #dad1ff;
+            --card-body-bg-top: #fbf9ff;
+            --card-body-bg-bot: #dcd2ff;
+            --color-green: #56e32d;
+            --color-cyan: #00eaff;
+            --color-purple-dark: #4a2c85;
+            --stroke-color: #6d5b9e;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    font-family: 'Fredoka', sans-serif;
-    background: radial-gradient(circle at center, #2b3595 0%, #110d30 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: white;
-}
+        body {
+            background-color: var(--color-bg-deep);
+            font-family: var(--font-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-/* --- Container Principal --- */
-.game-container {
-    width: 100%;
-    max-width: 400px;
-    background-image: 
-        radial-gradient(circle at 50% 30%, rgba(43, 85, 184, 0.4) 0%, transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
-    border-radius: 20px;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid #5c5c99;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
-}
+        /* --- BACKGROUND COMPLEXE (CERCLES) --- */
+        .app-container {
+            width: 100%;
+            max-width: 414px; /* Largeur iPhone Max */
+            height: 100vh; /* Plein écran mobile */
+            max-height: 850px;
+            background: 
+                radial-gradient(circle at 50% 35%, rgba(68, 86, 184, 0.4) 0%, transparent 50%),
+                repeating-radial-gradient(circle at 50% 35%, transparent 0, transparent 40px, rgba(50, 60, 120, 0.1) 41px, rgba(50, 60, 120, 0.1) 60px),
+                linear-gradient(180deg, #181945 0%, #291852 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid #333;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
 
-/* --- Header & Ribbon --- */
-.header-section {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        /* --- HEADER & RIBBON --- */
+        .header-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 10;
+        }
 
-.ribbon-container {
-    position: relative;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 5px 0px rgba(0,0,0,0.2));
-}
+        .ribbon-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            filter: drop-shadow(0 8px 0 rgba(0,0,0,0.2));
+            margin-bottom: 5px;
+        }
 
-.ribbon {
-    background: linear-gradient(90deg, var(--cyan-dark), var(--cyan-light), var(--cyan-dark));
-    padding: 10px 40px;
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 2px 0 rgba(0,0,0,0.3);
-    border-radius: 5px; /* Légère courbure */
-    clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%);
-    display: inline-block;
-    position: relative;
-    z-index: 2;
-}
+        .ribbon-body {
+            background: linear-gradient(180deg, #4ffaff 0%, #00b8d4 50%, #009eb8 100%);
+            padding: 12px 60px;
+            border-radius: 8px 8px 40px 40px; /* Courbe vers le bas */
+            position: relative;
+            z-index: 2;
+            clip-path: path("M0,0 H280 Q290,20 280,50 Q140,65 0,50 Q-10,20 0,0 Z"); /* Forme SVG personnalisée simulée */
+            width: 320px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.timer-label {
-    font-size: 14px;
-    font-weight: 600;
-    font-style: italic;
-    margin-bottom: 5px;
-    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
-}
+        .ribbon-text {
+            color: white;
+            font-size: 26px;
+            font-weight: 800;
+            text-shadow: 0 2px 0 #006064, 0 3px 5px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+            margin-top: -5px;
+        }
+        
+        .ribbon-tail-left, .ribbon-tail-right {
+            position: absolute;
+            top: 10px;
+            width: 40px;
+            height: 40px;
+            background: #007c91;
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .ribbon-tail-left { left: 20px; transform: rotate(-20deg); }
+        .ribbon-tail-right { right: 20px; transform: rotate(20deg); }
 
-.timer-pill {
-    background: linear-gradient(180deg, #e0d6ff 0%, #a494d4 100%);
-    color: #4a3b75;
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 16px;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.2), inset 0 2px 5px rgba(255,255,255,0.8);
-    border: 2px solid #fff;
-}
-.clock-icon { margin-right: 5px; }
+        /* Bouton X de fermeture */
+        .close-btn {
+            position: absolute;
+            right: 40px;
+            top: 15px;
+            font-weight: bold;
+            color: #1a3b6e;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 10;
+        }
 
-/* --- Progress Bar --- */
-.progress-section {
-    position: relative;
-    margin: 20px 0 30px 0;
-    padding: 0 10px;
-}
+        /* --- TIMER --- */
+        .timer-label {
+            color: white;
+            font-size: 14px;
+            font-style: italic;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 2px rgba(0,0,0,0.8);
+        }
 
-.progress-bar-bg {
-    height: 12px;
-    background: #475c8a;
-    border-radius: 10px;
-    position: relative;
-    top: 35px; /* Aligne la barre avec le bas des icônes */
-    z-index: 0;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-    border: 1px solid #5c75ad;
-}
+        .timer-pill {
+            background: linear-gradient(180deg, #dccfff 0%, #9e8eff 100%);
+            padding: 4px 16px;
+            border-radius: 20px;
+            border: 2px solid white;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
 
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ffd700, #ffaa00);
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ffaa00;
-}
+        .timer-text {
+            color: #553c8b;
+            font-weight: 800;
+            font-size: 15px;
+            font-style: italic;
+        }
 
-.milestones {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1;
-}
+        /* --- PROGRESS BAR --- */
+        .progress-container {
+            width: 95%;
+            position: relative;
+            height: 80px; /* Espace pour les coffres */
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
 
-.milestone {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50px;
-}
+        /* La barre bleue derrière */
+        .progress-track {
+            position: absolute;
+            bottom: 15px;
+            left: 10px;
+            right: 10px;
+            height: 14px;
+            background: #416096;
+            border-radius: 10px;
+            border: 2px solid #5d7cb3;
+            z-index: 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
 
-.chest-icon {
-    font-size: 24px;
-    margin-bottom: 5px;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
-}
+        /* La barre jaune de progression */
+        .progress-fill {
+            position: absolute;
+            bottom: 15px;
+            left: 12px;
+            height: 10px; /* Plus petit pour rentrer dans la track */
+            width: 18%; /* Ajuster la progression ici */
+            background: linear-gradient(90deg, #ffd900, #ffae00);
+            border-radius: 10px;
+            z-index: 1;
+            box-shadow: 0 0 5px #ffae00;
+        }
 
-.milestone-badge {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #6a4cba;
-    border: 2px solid #bda8f0;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    font-weight: bold;
-}
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 40px;
+        }
 
-.milestone.completed .milestone-badge {
-    background: #6aff78;
-    border-color: #fff;
-    color: #006400;
-}
+        .step-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #6c4bc4;
+            border: 2px solid #bba6f2;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+        }
 
-/* --- Grid Layout --- */
-.days-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 15px;
-}
+        /* État "Completed" (Coche verte) */
+        .step.completed .step-circle {
+            background: linear-gradient(180deg, #7aff6e, #1ba611);
+            border-color: white;
+            color: #00520a;
+            font-size: 18px;
+        }
 
-/* --- Generic Card Styles --- */
-.card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 4px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 5px 0 #8c7dba, 0 10px 10px rgba(0,0,0,0.3);
-    border: 3px solid white;
-}
+        /* Les Icônes Coffres (Placeholders) */
+        .chest-img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4));
+            /* PLACEHOLDER VISUEL : Emoji pour simuler l'image 3D */
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+        }
 
-.card-header {
-    background: rgba(255,255,255,0.5);
-    color: var(--text-blue);
-    font-weight: 700;
-    font-size: 13px;
-    padding: 5px 0;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    font-style: italic;
-}
+        /* --- GRID DAYS --- */
+        .days-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
 
-.card-content {
-    padding: 10px 5px 15px 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+        .card {
+            background: linear-gradient(180deg, var(--card-body-bg-top) 0%, var(--card-body-bg-bot) 100%);
+            border-radius: 18px;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            border: 3px solid white;
+            box-shadow: 0 6px 0 #7e6bb5, 0 10px 10px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden; /* Important pour le bandeau "Claimed" */
+        }
 
-.reward-icon {
-    font-size: 32px;
-    margin-bottom: 2px;
-    /* Placeholder for images */
-}
+        .card-header {
+            background: var(--card-header-bg);
+            border-radius: 12px 12px 6px 6px;
+            text-align: center;
+            padding: 4px 0;
+            color: var(--stroke-color);
+            font-weight: 800;
+            font-size: 13px;
+            font-style: italic;
+        }
 
-.amount {
-    font-weight: 800;
-    color: #fff;
-    font-size: 16px;
-    text-shadow: 
-        -1px -1px 0 #5f4e8d,  
-         1px -1px 0 #5f4e8d,
-        -1px  1px 0 #5f4e8d,
-         1px  1px 0 #5f4e8d; /* Stroke effect simulated */
-}
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 0 10px 0;
+            min-height: 80px;
+        }
 
-/* --- Card Variants --- */
+        /* Style des textes (quantités) */
+        .amount-text {
+            font-weight: 900;
+            font-size: 18px;
+            color: white;
+            -webkit-text-stroke: 1.5px #cf9900; /* Contour jaune/or */
+            text-shadow: 0 2px 0 rgba(0,0,0,0.2);
+            font-style: italic;
+        }
+        .amount-text.blue { -webkit-text-stroke: 1.5px #3a7caf; }
 
-/* CLAIMED (Day 1) */
-.card.claimed {
-    filter: grayscale(0.8);
-    opacity: 0.9;
-}
-.card.claimed .card-header { background: #ccc; }
-.card.claimed .amount { display: none; }
+        /* --- CARD VARIANTS --- */
 
-.claimed-banner {
-    position: absolute;
-    top: 50%;
-    left: -10px;
-    right: -10px;
-    background: #6aff78;
-    color: #005c0f;
-    font-weight: 800;
-    transform: rotate(-10deg) translateY(-50%);
-    padding: 5px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    z-index: 10;
-    font-size: 14px;
-    text-transform: uppercase;
-}
+        /* Day 1: Claimed */
+        .card.claimed {
+            filter: grayscale(100%); /* Rend tout gris */
+            opacity: 0.9;
+        }
+        .card.claimed::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.1);
+        }
+        .banner-claimed {
+            position: absolute;
+            background: #66ff75;
+            color: #005c1d;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 14px;
+            padding: 5px 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 10;
+            border: 2px solid white;
+            white-space: nowrap;
+        }
 
-/* TODAY (Day 2) */
-.card.today {
-    background: radial-gradient(circle, #a88eff 0%, #7e5eff 100%);
-    border: 3px solid #6aff78;
-    box-shadow: 0 0 15px rgba(106, 255, 120, 0.6), 0 5px 0 #4a3b75;
-    transform: scale(1.05);
-    z-index: 5;
-}
+        /* Day 2: Today (Active) */
+        .card.today {
+            border: 3px solid #5aff6c;
+            background: radial-gradient(circle, #bfaaff 0%, #8e74ff 100%);
+            box-shadow: 0 0 15px rgba(90, 255, 108, 0.6), 0 6px 0 #5c43a3;
+            transform: scale(1.02);
+            z-index: 5;
+        }
+        .card.today .card-header {
+            background: #5aff6c;
+            color: #006813;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+        }
+        .card.today .card-body {
+            /* Effet de glow derrière les pièces */
+            background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+        }
 
-.card.today .card-header {
-    background: linear-gradient(180deg, #6aff78 0%, #3ddb4c 100%);
-    color: white;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
-}
+        /* --- DAY 7 (LARGE) --- */
+        .day-7-wrapper {
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .card-day7 {
+            width: 100%;
+            background: linear-gradient(180deg, #3d51a6 0%, #20134d 100%);
+            border: 3px solid white;
+            border-radius: 20px;
+            box-shadow: inset 0 0 20px #5e84ff, 0 6px 0 #150b33;
+            overflow: hidden;
+        }
 
-/* --- Day 7 Big Card --- */
-.day-7-card {
-    grid-column: span 3;
-    background: linear-gradient(180deg, #3b5cb8 0%, #1e1145 100%);
-    border: 3px solid white;
-    box-shadow: inset 0 0 20px #5e84ff, 0 5px 0 #150b33;
-    padding-bottom: 10px;
-}
+        .day7-header {
+            text-align: center;
+            background: linear-gradient(180deg, #e4dcff 0%, #b7abeb 100%);
+            padding: 5px;
+            color: #554488;
+            font-weight: 800;
+            font-size: 14px;
+            font-style: italic;
+        }
 
-.day-7-card .card-header {
-    background: linear-gradient(180deg, #e0d6ff 0%, #b0a3e6 100%);
-    color: var(--text-blue);
-    margin-bottom: 10px;
-}
+        .day7-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 10px 10px 15px 10px;
+            background-image: radial-gradient(white 1px, transparent 1px); /* Étoiles */
+            background-size: 20px 20px;
+        }
 
-.day-7-content {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-end;
-    padding: 0 10px;
-}
+        .reward-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.day-7-content .reward-item {
-    text-align: center;
-}
+        /* --- PLACEHOLDER ICONS (To be replaced by images) --- */
+        .icon { font-size: 32px; margin-bottom: -5px; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.2)); }
+        .icon-lg { font-size: 42px; margin-bottom: -5px; filter: drop-shadow(0 0 10px white); }
+        .icon-coins { color: #ffd700; }
+        .icon-glass { color: #00d9ff; }
+        .icon-box { color: #aa00ff; }
 
-.day-7-content .reward-item.main-chest .reward-icon {
-    font-size: 45px; /* Plus gros */
-    filter: drop-shadow(0 0 10px white);
-}
-
-/* --- Utilitaires de texte/couleurs --- */
-.coins-grey { filter: grayscale(1); }
-.coins-gold { color: #ffd700; }
-.hourglass { color: #00d2ff; }
-.mystery-box { color: #a020f0; }
     </style>
 </head>
 <body>
 
-    <div class="game-container">
-        
+    <div class="app-container">
+
         <div class="header-section">
-            <div class="ribbon-container">
-                <div class="ribbon">Daily Rewards</div>
-                <div class="ribbon-ends"></div>
+            <div class="ribbon-wrapper">
+                <div class="ribbon-tail-left"></div>
+                <div class="ribbon-tail-right"></div>
+                <div class="ribbon-body">
+                    <span class="ribbon-text">Daily Rewards</span>
+                    <span class="close-btn">✖</span>
+                </div>
             </div>
             
             <div class="timer-label">Expires in:</div>
             <div class="timer-pill">
-                <span class="clock-icon">⏰</span> 8h 59m 30s
+                <span>⏱️</span>
+                <span class="timer-text">8h 59m 30s</span>
             </div>
         </div>
 
-        <div class="progress-section">
-            <div class="progress-bar-bg">
-                <div class="progress-fill" style="width: 20%;"></div>
+        <div class="progress-container">
+            <div class="progress-track"></div>
+            <div class="progress-fill"></div>
+
+            <div class="step completed">
+                <div class="chest-img">📦</div> <div class="step-circle">✓</div>
             </div>
-            
-            <div class="milestones">
-                <div class="milestone completed">
-                    <div class="chest-icon tier-1">📦</div> <div class="milestone-badge">✓</div>
-                </div>
-                <div class="milestone">
-                    <div class="chest-icon tier-2">🎁</div>
-                    <div class="milestone-badge">15</div>
-                </div>
-                <div class="milestone">
-                    <div class="chest-icon tier-3">🎁</div>
-                    <div class="milestone-badge">22</div>
-                </div>
-                <div class="milestone">
-                    <div class="chest-icon tier-4">🎁</div>
-                    <div class="milestone-badge">28</div>
-                </div>
+
+            <div class="step">
+                <div class="chest-img">🎁</div> <div class="step-circle">15</div>
+            </div>
+
+            <div class="step">
+                <div class="chest-img">🎁</div> <div class="step-circle">22</div>
+            </div>
+
+            <div class="step">
+                <div class="chest-img">🎁</div> <div class="step-circle">28</div>
             </div>
         </div>
 
         <div class="days-grid">
             
-            <div class="card day-card claimed">
+            <div class="card claimed">
+                <div class="banner-claimed">Claimed</div>
                 <div class="card-header">Day 1</div>
-                <div class="card-content">
-                    <div class="reward-icon coins-grey">🪙</div>
-                </div>
-                <div class="claimed-banner">Claimed</div>
+                <div class="card-body">
+                    <div class="icon icon-coins">🪙</div>
+                    </div>
             </div>
 
-            <div class="card day-card today">
+            <div class="card today">
                 <div class="card-header">Today</div>
-                <div class="card-content">
-                    <div class="reward-icon coins-gold">🪙</div>
-                    <div class="amount">x500</div>
+                <div class="card-body">
+                    <div class="icon icon-coins">🪙</div>
+                    <div class="amount-text">x500</div>
                 </div>
-                <div class="glow-effect"></div>
             </div>
 
-            <div class="card day-card">
+            <div class="card">
                 <div class="card-header">Day 3</div>
-                <div class="card-content">
-                    <div class="reward-icon coins-gold">🪙</div>
-                    <div class="amount">x500</div>
+                <div class="card-body">
+                    <div class="icon icon-coins">🪙</div>
+                    <div class="amount-text">x500</div>
                 </div>
             </div>
 
-            <div class="card day-card">
+            <div class="card">
                 <div class="card-header">Day 4</div>
-                <div class="card-content">
-                    <div class="reward-icon hourglass">⏳</div>
-                    <div class="amount">+10s</div>
+                <div class="card-body">
+                    <div class="icon icon-glass">⏳</div>
+                    <div class="amount-text blue">+10s</div>
                 </div>
             </div>
 
-            <div class="card day-card">
+            <div class="card">
                 <div class="card-header">Day 5</div>
-                <div class="card-content">
-                    <div class="reward-icon coins-gold">🪙</div>
-                    <div class="amount">x800</div>
+                <div class="card-body">
+                    <div class="icon icon-coins">🪙</div>
+                    <div class="amount-text">x800</div>
                 </div>
             </div>
 
-            <div class="card day-card">
+            <div class="card">
                 <div class="card-header">Day 6</div>
-                <div class="card-content">
-                    <div class="reward-icon hourglass">⏳</div>
-                    <div class="amount">+30s</div>
+                <div class="card-body">
+                    <div class="icon icon-glass">⏳</div>
+                    <div class="amount-text blue">+30s</div>
                 </div>
             </div>
         </div>
 
-        <div class="card day-7-card">
-            <div class="card-header">Day 7</div>
-            <div class="day-7-content">
-                <div class="reward-item">
-                    <div class="reward-icon coins-gold">🪙</div>
-                    <div class="amount">x1,000</div>
-                </div>
-                <div class="reward-item main-chest">
-                    <div class="reward-icon mystery-box">🟪</div>
-                    <div class="amount">x2</div>
-                </div>
-                <div class="reward-item">
-                    <div class="reward-icon hourglass">⏳</div>
-                    <div class="amount">+2m</div>
+        <div class="day-7-wrapper">
+            <div class="card-day7">
+                <div class="day7-header">Day 7</div>
+                <div class="day7-content">
+                    <div class="reward-group">
+                        <div class="icon icon-coins">🪙</div>
+                        <div class="amount-text">x1,000</div>
+                    </div>
+                    <div class="reward-group">
+                        <div class="icon-lg icon-box">🟪</div> <div class="amount-text">x2</div>
+                    </div>
+                    <div class="reward-group">
+                        <div class="icon icon-glass">⏳</div>
+                        <div class="amount-text blue">+2m</div>
+                    </div>
                 </div>
             </div>
         </div>
