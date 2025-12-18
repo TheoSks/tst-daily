@@ -6,7 +6,296 @@
     <title>Daily Rewards UI</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Insérer le CSS ici ou dans un fichier séparé */
+       :root {
+    --bg-dark: #1e1145;
+    --bg-light: #2a3b90;
+    --card-bg: linear-gradient(180deg, #f0ebff 0%, #dcd0ff 100%);
+    --card-border: #fff;
+    --card-shadow: 0 6px 0 #9e8eff;
+    --text-blue: #4a4a8a;
+    --cyan-light: #4ffaff;
+    --cyan-dark: #00b8d4;
+    --green-light: #6aff78;
+    --green-dark: #2ba835;
+    --gold: #ffcc00;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: radial-gradient(circle at center, #2b3595 0%, #110d30 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+}
+
+/* --- Container Principal --- */
+.game-container {
+    width: 100%;
+    max-width: 400px;
+    background-image: 
+        radial-gradient(circle at 50% 30%, rgba(43, 85, 184, 0.4) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #5c5c99;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+/* --- Header & Ribbon --- */
+.header-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ribbon-container {
+    position: relative;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 5px 0px rgba(0,0,0,0.2));
+}
+
+.ribbon {
+    background: linear-gradient(90deg, var(--cyan-dark), var(--cyan-light), var(--cyan-dark));
+    padding: 10px 40px;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.3);
+    border-radius: 5px; /* Légère courbure */
+    clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%);
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+.timer-label {
+    font-size: 14px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+}
+
+.timer-pill {
+    background: linear-gradient(180deg, #e0d6ff 0%, #a494d4 100%);
+    color: #4a3b75;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2), inset 0 2px 5px rgba(255,255,255,0.8);
+    border: 2px solid #fff;
+}
+.clock-icon { margin-right: 5px; }
+
+/* --- Progress Bar --- */
+.progress-section {
+    position: relative;
+    margin: 20px 0 30px 0;
+    padding: 0 10px;
+}
+
+.progress-bar-bg {
+    height: 12px;
+    background: #475c8a;
+    border-radius: 10px;
+    position: relative;
+    top: 35px; /* Aligne la barre avec le bas des icônes */
+    z-index: 0;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    border: 1px solid #5c75ad;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffaa00;
+}
+
+.milestones {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.milestone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+}
+
+.chest-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+}
+
+.milestone-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #6a4cba;
+    border: 2px solid #bda8f0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.milestone.completed .milestone-badge {
+    background: #6aff78;
+    border-color: #fff;
+    color: #006400;
+}
+
+/* --- Grid Layout --- */
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+/* --- Generic Card Styles --- */
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 4px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 0 #8c7dba, 0 10px 10px rgba(0,0,0,0.3);
+    border: 3px solid white;
+}
+
+.card-header {
+    background: rgba(255,255,255,0.5);
+    color: var(--text-blue);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 5px 0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-style: italic;
+}
+
+.card-content {
+    padding: 10px 5px 15px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.reward-icon {
+    font-size: 32px;
+    margin-bottom: 2px;
+    /* Placeholder for images */
+}
+
+.amount {
+    font-weight: 800;
+    color: #fff;
+    font-size: 16px;
+    text-shadow: 
+        -1px -1px 0 #5f4e8d,  
+         1px -1px 0 #5f4e8d,
+        -1px  1px 0 #5f4e8d,
+         1px  1px 0 #5f4e8d; /* Stroke effect simulated */
+}
+
+/* --- Card Variants --- */
+
+/* CLAIMED (Day 1) */
+.card.claimed {
+    filter: grayscale(0.8);
+    opacity: 0.9;
+}
+.card.claimed .card-header { background: #ccc; }
+.card.claimed .amount { display: none; }
+
+.claimed-banner {
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    right: -10px;
+    background: #6aff78;
+    color: #005c0f;
+    font-weight: 800;
+    transform: rotate(-10deg) translateY(-50%);
+    padding: 5px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* TODAY (Day 2) */
+.card.today {
+    background: radial-gradient(circle, #a88eff 0%, #7e5eff 100%);
+    border: 3px solid #6aff78;
+    box-shadow: 0 0 15px rgba(106, 255, 120, 0.6), 0 5px 0 #4a3b75;
+    transform: scale(1.05);
+    z-index: 5;
+}
+
+.card.today .card-header {
+    background: linear-gradient(180deg, #6aff78 0%, #3ddb4c 100%);
+    color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+/* --- Day 7 Big Card --- */
+.day-7-card {
+    grid-column: span 3;
+    background: linear-gradient(180deg, #3b5cb8 0%, #1e1145 100%);
+    border: 3px solid white;
+    box-shadow: inset 0 0 20px #5e84ff, 0 5px 0 #150b33;
+    padding-bottom: 10px;
+}
+
+.day-7-card .card-header {
+    background: linear-gradient(180deg, #e0d6ff 0%, #b0a3e6 100%);
+    color: var(--text-blue);
+    margin-bottom: 10px;
+}
+
+.day-7-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 0 10px;
+}
+
+.day-7-content .reward-item {
+    text-align: center;
+}
+
+.day-7-content .reward-item.main-chest .reward-icon {
+    font-size: 45px; /* Plus gros */
+    filter: drop-shadow(0 0 10px white);
+}
+
+/* --- Utilitaires de texte/couleurs --- */
+.coins-grey { filter: grayscale(1); }
+.coins-gold { color: #ffd700; }
+.hourglass { color: #00d2ff; }
+.mystery-box { color: #a020f0; }
     </style>
 </head>
 <body>
